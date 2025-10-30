@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>DevFest Windsor 2025 — Screen 4 (Sponsors)</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				--bg: #eaf5fa; /* soft light-blue field */
+				--paper: #ffffff;
+				--ink: #0b1220;
+				--muted: #475569;
+				--ring: rgba(2, 6, 23, 0.12);
+				--shadow: 0 18px 50px rgba(15, 23, 42, 0.16);
+			}
+			* {
+				box-sizing: border-box;
+			}
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				margin: 0;
+				font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				color: var(--ink);
+				background: var(--bg);
+				overflow: hidden;
+			}
+
+			/* 1080x1920 capture mode: ?vertical=1 */
+			body.vertical {
+				display: grid;
+				place-items: center;
+			}
+			body.vertical .wrap {
+				width: 1080px;
+				height: 1920px;
+				transform-origin: center;
+			}
+
+			.wrap {
+				height: 100%;
+				display: grid;
+				place-items: center;
+				padding: 6vmin;
+			}
+			.card {
+				width: min(1220px, 94vw);
+				height: min(80vh, 820px);
+				background: var(--paper);
+				border: 1px solid var(--ring);
+				border-radius: 28px;
+				box-shadow: var(--shadow);
+				position: relative;
+				overflow: hidden;
+				padding: clamp(20px, 4vw, 40px);
+				transform: translateY(8px) scale(0.985);
+				opacity: 0;
+				animation: cardIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+			}
+			@keyframes cardIn {
+				to {
+					transform: translateY(0) scale(1);
+					opacity: 1;
+				}
+			}
+
+			/* Title */
+			.title {
+				position: absolute;
+				left: 50%;
+				top: clamp(18px, 3vw, 28px);
+				transform: translateX(-50%);
+				font-family: Poppins, Inter, ui-sans-serif;
+				font-weight: 800;
+				letter-spacing: 0.02em;
+				font-size: clamp(20px, 2.2vw, 32px);
+			}
+
+			/* Sponsors grid */
+			.grid {
+				height: 100%;
+				display: grid;
+				align-content: center;
+				justify-items: center;
+				gap: clamp(14px, 2vw, 24px);
+				/* Responsive 6x4-ish layout that adapts */
+				grid-template-columns: repeat(6, minmax(120px, 1fr));
+				padding-top: clamp(48px, 10vmin, 120px);
+			}
+			@media (max-width: 1100px) {
+				.grid {
+					grid-template-columns: repeat(5, minmax(120px, 1fr));
+				}
+			}
+			@media (max-width: 900px) {
+				.grid {
+					grid-template-columns: repeat(4, minmax(120px, 1fr));
+				}
+			}
+			@media (max-width: 680px) {
+				.grid {
+					grid-template-columns: repeat(3, minmax(110px, 1fr));
+				}
+			}
+
+			.bubble {
+				width: clamp(110px, 12vw, 150px);
+				aspect-ratio: 1/1;
+				border-radius: 999px;
+				display: grid;
+				place-items: center;
+				background: #fff;
+				border: 1px solid rgba(2, 6, 23, 0.1);
+				box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+					0 10px 26px rgba(15, 23, 42, 0.12);
+				transform: translate3d(0, 12px, 0) scale(0.88);
+				opacity: 0;
+				/* comes alive via JS */
+				will-change: transform, opacity, filter;
+			}
+			.bubble img {
+				max-width: 70%;
+				max-height: 70%;
+				object-fit: contain;
+				filter: saturate(0.92);
+				transform: translateZ(0);
+				user-select: none;
+				pointer-events: none;
+			}
+
+			/* micro-interactions */
+			.bubble:hover {
+				filter: drop-shadow(0 12px 24px rgba(2, 6, 23, 0.18));
+				transform: translateY(-2px) scale(0.98);
+			}
+
+			/* Bottom nav hint (optional) */
+			.hint {
+				position: absolute;
+				bottom: 16px;
+				left: 50%;
+				transform: translateX(-50%);
+				font-size: 12px;
+				color: var(--muted);
+				opacity: 0.75;
+				letter-spacing: 0.02em;
+			}
+
+			/* fade out for transition if you chain to screen5 */
+			.fade-out {
+				animation: fadeOut 0.45s ease forwards;
+			}
+			@keyframes fadeOut {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main class="wrap">
+			<section class="card" id="screen4" aria-label="Sponsors">
+				<div class="title">SPONSORS</div>
+
+				<div class="grid" id="sponsorsGrid" aria-live="polite"></div>
+
+				<div class="hint">
+					Logos pop in automatically • add/replace files in <code>assets/</code>
+				</div>
+			</section>
+		</main>
+
+		<script>
+			// Enable vertical capture with ?vertical=1
+			if (new URLSearchParams(location.search).get("vertical")) {
+				document.body.classList.add("vertical");
+				const wrap = document.querySelector(".wrap");
+				function scale() {
+					wrap.style.transform = `scale(${Math.min(
+						innerWidth / 1080,
+						innerHeight / 1920
+					)})`;
+				}
+				addEventListener("resize", scale, { passive: true });
+				scale();
+			}
+
+			// --- 1) Configure your sponsors here ---
+			// For each sponsor: { src: "assets/YourLogo.png", url: "https://…" }
+			const SPONSORS = [
+				{ src: "assets/HackforgeLogoInverted.png", url: "" },
+				{ src: "assets/HackforgeLogoInverted.png", url: "" },
+				{ src: "assets/HackforgeLogoInverted.png", url: "" },
+				{ src: "assets/HackforgeLogoInverted.png", url: "" },
+				// ✍️ replace the rest with your real files (keep total ~24)
+				...Array.from({ length: 20 }, () => ({
+					src: "assets/placeholder_sponsor.svg",
+					url: "",
+				})),
+			];
+
+			// --- 2) Build bubbles ---
+			const grid = document.getElementById("sponsorsGrid");
+
+			// Simple placeholder SVG if you don’t add your own yet
+			const PLACEHOLDER_SVG =
+				"data:image/svg+xml;utf8," +
+				encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+          <defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#eef2ff"/><stop offset="1" stop-color="#e5f3ff"/></linearGradient></defs>
+          <circle cx="80" cy="80" r="78" fill="url(#g)"/>
+          <g fill="#0b1220" opacity=".55" font-family="Inter,Arial" font-size="16" text-anchor="middle">
+            <text x="80" y="84">Sponsor</text>
+          </g>
+        </svg>
+      `);
+
+			function makeBubble(item, i) {
+				const a = document.createElement(item.url ? "a" : "div");
+				a.className = "bubble";
+				if (item.url) {
+					a.href = item.url;
+					a.target = "_blank";
+					rel = "noopener";
+				}
+				const img = new Image();
+				img.alt = "Sponsor logo";
+				img.src =
+					item.src && item.src !== "assets/placeholder_sponsor.svg"
+						? item.src
+						: PLACEHOLDER_SVG;
+				a.appendChild(img);
+				// random tiny rotation for organic look
+				a.style.rotate = Math.random() * 6 - 3 + "deg";
+				// store initial random offset for entrance
+				const rx = (Math.random() * 2 - 1) * 200; // px
+				const ry = (Math.random() * 2 - 1) * 120; // px
+				a.style.transform = `translate(${rx}px, ${ry}px) scale(.6)`;
+				a.style.opacity = "0";
+				// animate in (spring-ish look)
+				const delay = 220 + i * 60 + Math.random() * 120;
+				a.animate(
+					[
+						{ transform: `translate(${rx}px, ${ry}px) scale(.6)`, opacity: 0 },
+						{ transform: "translate(0,0) scale(1)", opacity: 1 },
+					],
+					{
+						duration: 820,
+						delay,
+						easing: "cubic-bezier(.2,.9,.2,1)",
+						fill: "forwards",
+					}
+				).finished.then(() => float(a));
+				return a;
+			}
+
+			// continuous gentle float per bubble
+			function float(el) {
+				const ampX = 6 + Math.random() * 6;
+				const ampY = 6 + Math.random() * 6;
+				const dur = 3800 + Math.random() * 1600;
+				el.animate(
+					[
+						{ transform: `translate(0px, 0px)` },
+						{ transform: `translate(${ampX}px, ${-ampY}px)` },
+						{ transform: `translate(0px, 0px)` },
+					],
+					{ duration: dur, iterations: Infinity, easing: "ease-in-out" }
+				);
+			}
+
+			SPONSORS.slice(0, 36).forEach((s, i) =>
+				grid.appendChild(makeBubble(s, i))
+			);
+
+			// --- Optional: auto-advance after 6s to the next step ---
+			// change target to your next page (or comment these lines out if you want manual)
+			let advanced = false;
+			function goNext() {
+				if (advanced) return;
+				advanced = true;
+				const s4 = document.getElementById("screen4");
+				s4.classList.add("fade-out");
+				setTimeout(() => {
+					window.location.href = "screen5.html";
+				}, 460);
+			}
+			setTimeout(goNext, 6000);
+			window.addEventListener("keydown", (e) => {
+				if (["Enter", " "].includes(e.key)) goNext();
+			});
+		</script>
+		<!-- DevFest: Next CTA (drop-in) -->
+		<div id="df-next" data-next="screen5.html" <!-- 👈 change per screen -->
+			data-autodelay=""
+			<!-- e.g. 5000 for 5s, leave empty to disable -->
+			data-label="Tap to see next →">
+			<!-- optional custom label -->
+		</div>
+
+		<style>
+			/* isolated styles (prefixed) */
+			.df-next__wrap {
+				position: fixed;
+				right: clamp(12px, 2vw, 20px);
+				bottom: clamp(12px, 2.2vw, 20px);
+				z-index: 9999;
+				pointer-events: none;
+			}
+			.df-next__btn {
+				pointer-events: auto;
+				-webkit-tap-highlight-color: transparent;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				background: rgba(17, 24, 39, 0.92);
+				color: #fff;
+				font: 700 14px/1.1 Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				padding: 0.9rem 1.15rem;
+				border-radius: 999px;
+				display: inline-flex;
+				gap: 0.6ch;
+				align-items: center;
+				box-shadow: 0 10px 28px rgba(2, 6, 23, 0.28);
+				transform: translateY(6px);
+				opacity: 0;
+				backdrop-filter: blur(4px);
+				transition: transform 0.25s ease, opacity 0.45s ease;
+			}
+			.df-next__btn svg {
+				width: 1.15em;
+				height: 1.15em;
+			}
+			.df-next__btn:focus-visible {
+				outline: 3px solid #93c5fd;
+				outline-offset: 3px;
+			}
+			.df-next__btn:hover {
+				transform: translateY(0);
+			}
+			.df-next--in .df-next__btn {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			/* shared fade-out (used if your screen doesn’t already have one) */
+			.df-fade-out {
+				animation: dfFade 0.45s ease forwards;
+			}
+			@keyframes dfFade {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+
+			/* respect reduced motion */
+			@media (prefers-reduced-motion: reduce) {
+				.df-next__btn,
+				.df-fade-out {
+					transition: none !important;
+					animation: none !important;
+				}
+			}
+		</style>
+
+		<script>
+			(function () {
+				const host = document.getElementById("df-next");
+				if (!host) return;
+				const nextUrl = host.getAttribute("data-next") || "";
+				const autoDelay = parseInt(host.getAttribute("data-autodelay")) || null;
+				const label = host.getAttribute("data-label") || "Tap to see next →";
+
+				// build button
+				const wrap = document.createElement("div");
+				wrap.className = "df-next__wrap";
+				const btn = document.createElement("button");
+				btn.type = "button";
+				btn.className = "df-next__btn";
+				btn.setAttribute("aria-label", label);
+				btn.innerHTML = `${label}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+      </svg>`;
+				wrap.appendChild(btn);
+				host.replaceWith(wrap);
+				requestAnimationFrame(() => wrap.classList.add("df-next--in"));
+
+				// find the main section to fade
+				const section =
+					document.querySelector('section[id^="screen"]') || document.body;
+				let advancing = false;
+				function goNext() {
+					if (advancing) return;
+					advancing = true;
+					if (section) section.classList.add("df-fade-out");
+					setTimeout(() => {
+						if (nextUrl) window.location.href = nextUrl;
+					}, 450);
+				}
+
+				btn.addEventListener("click", goNext);
+				// keyboard shortcut
+				window.addEventListener("keydown", (e) => {
+					if (e.key === "Enter" || e.key === " ") goNext();
+				});
+
+				// optional auto-advance
+				let timer = null;
+				if (Number.isFinite(autoDelay) && autoDelay > 0) {
+					timer = setTimeout(goNext, autoDelay);
+					// cancel auto on first interaction
+					["mousemove", "pointerdown", "keydown", "touchstart"].forEach((ev) =>
+						addEventListener(
+							ev,
+							() => {
+								if (timer) {
+									clearTimeout(timer);
+									timer = null;
+								}
+							},
+							{ once: true }
+						)
+					);
+				}
+			})();
+		</script>
+	</body>
+</html>

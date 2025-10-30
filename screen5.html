@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>DevFest Windsor 2025 — Screen 5 (Schedule)</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				--mint: #eaf7ec;
+				--ink: #0b1220;
+				--ring: rgba(2, 6, 23, 0.12);
+			}
+			* {
+				box-sizing: border-box;
+			}
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				margin: 0;
+				background: var(--mint);
+				font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				color: var(--ink);
+				overflow: hidden;
+				display: grid;
+				place-items: center;
+				padding: min(5vmin, 40px);
+			}
+
+			/* 1080x1920 capture (open with ?vertical=1) */
+			body.vertical .stage {
+				width: 1080px;
+				height: 1920px;
+				transform-origin: center;
+			}
+			body.vertical {
+				place-items: center;
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				body {
+					animation: bgPulse 16s ease-in-out infinite;
+				}
+				@keyframes bgPulse {
+					0%,
+					100% {
+						background: #eaf7ec;
+					}
+					50% {
+						background: #e6f7ee;
+					}
+				}
+			}
+
+			.stage {
+				width: min(1200px, 96vw);
+				height: min(90vh, 960px);
+				display: grid;
+				place-items: center;
+				position: relative;
+			}
+
+			/* Phone mock */
+			.phone {
+				width: min(420px, 70vw);
+				aspect-ratio: 390 / 844; /* iPhone 12 base */
+				background: #111;
+				border-radius: 40px;
+				padding: 14px;
+				box-shadow: 0 24px 60px rgba(2, 6, 23, 0.25),
+					inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+				position: relative;
+				isolation: isolate;
+				transform: translateY(8px) scale(0.985);
+				opacity: 0;
+				animation: in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+			}
+			@keyframes in {
+				to {
+					transform: translateY(0) scale(1);
+					opacity: 1;
+				}
+			}
+
+			/* notch */
+			.notch {
+				position: absolute;
+				top: 10px;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 38%;
+				height: 24px;
+				background: #000;
+				border-bottom-left-radius: 12px;
+				border-bottom-right-radius: 12px;
+				box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+				z-index: 2;
+			}
+
+			/* screen area */
+			.screen {
+				width: 100%;
+				height: 100%;
+				border-radius: 32px;
+				overflow: hidden;
+				background: #fff;
+				display: grid;
+				place-items: center;
+				position: relative;
+			}
+
+			/* content layer (video or image) */
+			.media {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				background: #fff;
+				display: block;
+			}
+
+			/* Fallback image auto-scroll effect */
+			.imgScroller {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				background: #fff;
+			}
+			.imgScroller img {
+				width: 100%;
+				height: auto;
+				display: block;
+				transform: translateY(0);
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				.imgScroller img {
+					animation: autoScroll 12s ease-in-out infinite;
+				}
+				@keyframes autoScroll {
+					0% {
+						transform: translateY(0);
+					}
+					45% {
+						transform: translateY(-35%);
+					}
+					55% {
+						transform: translateY(-35%);
+					}
+					100% {
+						transform: translateY(0);
+					}
+				}
+			}
+
+			/* label */
+			.caption {
+				position: absolute;
+				top: -54px;
+				left: 50%;
+				transform: translateX(-50%);
+				font-weight: 800;
+				letter-spacing: 0.02em;
+				font-size: clamp(18px, 2.2vw, 28px);
+			}
+		</style>
+	</head>
+	<body>
+		<div class="stage" id="stage">
+			<div class="caption">Schedule preview</div>
+
+			<div class="phone" aria-label="Schedule preview on phone">
+				<div class="notch" aria-hidden="true"></div>
+				<div class="screen" id="screen">
+					<!-- VIDEO first (if exists/loads) -->
+					<video
+						id="schedVideo"
+						class="media"
+						src="assets/videoGDG.mp4"
+						muted
+						playsinline
+						loop
+						preload="auto"
+						aria-label="Schedule video"
+					></video>
+
+					<!-- Fallback image scroller (visible only if video can’t play) -->
+					<div id="fallback" class="imgScroller" hidden>
+						<img
+							src="assets/PresentationVideoPresentation.jpg"
+							alt="Schedule mock"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// Vertical capture scaling
+			if (new URLSearchParams(location.search).get("vertical")) {
+				document.body.classList.add("vertical");
+				const stage = document.getElementById("stage");
+				const scale = () =>
+					(stage.style.transform = `scale(${Math.min(
+						innerWidth / 1080,
+						innerHeight / 1920
+					)})`);
+				addEventListener("resize", scale, { passive: true });
+				scale();
+			}
+
+			// Try autoplay; if it fails, reveal the fallback image scroller
+			(async function initVideo() {
+				const video = document.getElementById("schedVideo");
+				const fb = document.getElementById("fallback");
+				try {
+					// Some browsers block autoplay before calling .play()
+					video.muted = true;
+					video.playsInline = true;
+					video.loop = true;
+					await video.play();
+				} catch (e) {
+					// Use the fallback image
+					video.remove();
+					fb.hidden = false;
+				}
+			})();
+		</script>
+
+		<!-- Drop-in CTA (change data-next to your next screen) -->
+		<div
+			id="df-next"
+			data-next="screen6.html"
+			data-autodelay=""
+			data-label="Tap to see next →"
+		></div>
+		<style>
+			.df-next__wrap {
+				position: fixed;
+				right: clamp(12px, 2vw, 20px);
+				bottom: clamp(12px, 2.2vw, 20px);
+				z-index: 9999;
+				pointer-events: none;
+			}
+			.df-next__btn {
+				pointer-events: auto;
+				-webkit-tap-highlight-color: transparent;
+				border: 1px solid rgba(0, 0, 0, 0.08);
+				background: #111827;
+				color: #fff;
+				font: 700 14px/1.1 Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				padding: 0.9rem 1.15rem;
+				border-radius: 999px;
+				display: inline-flex;
+				gap: 0.6ch;
+				align-items: center;
+				box-shadow: 0 10px 28px rgba(2, 6, 23, 0.28);
+				transform: translateY(6px);
+				opacity: 0;
+				backdrop-filter: blur(4px);
+				transition: transform 0.25s ease, opacity 0.45s ease;
+			}
+			.df-next__btn svg {
+				width: 1.15em;
+				height: 1.15em;
+			}
+			.df-next__btn:focus-visible {
+				outline: 3px solid #93c5fd;
+				outline-offset: 3px;
+			}
+			.df-next__btn:hover {
+				transform: translateY(0);
+			}
+			.df-next--in .df-next__btn {
+				opacity: 1;
+				transform: translateY(0);
+			}
+			.df-fade-out {
+				animation: dfFade 0.45s ease forwards;
+			}
+			@keyframes dfFade {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+			@media (prefers-reduced-motion: reduce) {
+				.df-next__btn,
+				.df-fade-out {
+					transition: none !important;
+					animation: none !important;
+				}
+			}
+		</style>
+		<script>
+			(function () {
+				const host = document.getElementById("df-next");
+				if (!host) return;
+				const next = host.getAttribute("data-next") || "";
+				const auto = parseInt(host.getAttribute("data-autodelay")) || null;
+				const label = host.getAttribute("data-label") || "Tap to see next →";
+				const wrap = document.createElement("div");
+				wrap.className = "df-next__wrap";
+				const btn = document.createElement("button");
+				btn.className = "df-next__btn";
+				btn.innerHTML = `${label}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
+				wrap.appendChild(btn);
+				host.replaceWith(wrap);
+				requestAnimationFrame(() => wrap.classList.add("df-next--in"));
+				const section =
+					document.querySelector('section[id^="screen"]') || document.body;
+				let going = false;
+				function go() {
+					if (going) return;
+					going = true;
+					if (section) section.classList.add("df-fade-out");
+					setTimeout(() => {
+						if (next) location.href = next;
+					}, 450);
+				}
+				btn.addEventListener("click", go);
+				addEventListener("keydown", (e) => {
+					if (e.key === "Enter" || e.key === " ") go();
+				});
+				if (Number.isFinite(auto) && auto > 0) {
+					let t = setTimeout(go, auto);
+					["mousemove", "pointerdown", "keydown", "touchstart"].forEach((ev) =>
+						addEventListener(
+							ev,
+							() => {
+								if (t) {
+									clearTimeout(t);
+									t = null;
+								}
+							},
+							{ once: true }
+						)
+					);
+				}
+			})();
+		</script>
+	</body>
+</html>

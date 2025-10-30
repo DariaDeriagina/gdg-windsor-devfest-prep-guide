@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>DevFest Windsor 2025 — Screen 3</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			:root {
+				--bgSide: #f7ebef; /* soft pink side rails from mock */
+				--paper: #fcfcfa;
+				--ink: #0b1220;
+				--muted: #4b5563;
+				--ring: rgba(2, 6, 23, 0.12);
+				--g-blue: #4285f4;
+				--g-red: #ea4335;
+				--g-yellow: #fbbc04;
+				--g-green: #34a853;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				margin: 0;
+				font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				color: var(--ink);
+				background: linear-gradient(
+					90deg,
+					var(--bgSide) 0 10vw,
+					transparent 10vw calc(100% - 10vw),
+					var(--bgSide) calc(100% - 10vw)
+				);
+				overflow: hidden;
+			}
+
+			/* 1080x1920 capture mode (open with ?vertical=1) */
+			body.vertical {
+				display: grid;
+				place-items: center;
+			}
+			body.vertical .wrap {
+				width: 1080px;
+				height: 1920px;
+				transform-origin: center;
+			}
+			body.vertical .fit {
+				position: fixed;
+				inset: 0;
+				display: grid;
+				place-items: center;
+			}
+
+			.wrap {
+				height: 100%;
+				display: grid;
+				place-items: center;
+				padding: 6vmin;
+			}
+			.card {
+				width: min(1180px, 92vw);
+				background: var(--paper);
+				border: 1px solid var(--ring);
+				border-radius: 28px;
+				box-shadow: 0 20px 60px rgba(15, 23, 42, 0.1);
+				padding: clamp(28px, 6vmin, 64px);
+				position: relative;
+				overflow: hidden;
+				transform: translateY(8px) scale(0.985);
+				opacity: 0;
+				animation: in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+			}
+			@keyframes in {
+				to {
+					transform: translateY(0) scale(1);
+					opacity: 1;
+				}
+			}
+
+			/* subtle paper texture wash */
+			.card::before {
+				content: "";
+				position: absolute;
+				inset: -20% -10% -10% -10%;
+				pointer-events: none;
+				z-index: 0;
+				background: radial-gradient(
+						900px 600px at 15% 20%,
+						rgba(255, 214, 214, 0.25),
+						transparent 60%
+					),
+					radial-gradient(
+						900px 600px at 85% 80%,
+						rgba(214, 240, 255, 0.25),
+						transparent 60%
+					);
+				filter: blur(10px);
+				animation: wash 14s ease-in-out infinite;
+			}
+			@keyframes wash {
+				0%,
+				100% {
+					transform: translate3d(0, 0, 0);
+				}
+				50% {
+					transform: translate3d(-2%, 1%, 0);
+				}
+			}
+
+			.grid {
+				position: relative;
+				z-index: 1;
+				display: grid;
+				gap: clamp(18px, 2vw, 28px);
+				grid-template-columns: 1.2fr 0.8fr;
+				align-items: center;
+			}
+			@media (max-width: 900px) {
+				.grid {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			/* Headline */
+			h1 {
+				font-family: Poppins, Inter, ui-sans-serif;
+				font-weight: 800;
+				letter-spacing: -0.02em;
+				font-size: clamp(38px, 6.8vw, 96px);
+				line-height: 1.06;
+				margin: 0;
+			}
+			.line {
+				display: inline-block;
+				opacity: 0;
+				transform: translateY(10px);
+			}
+			.line.show {
+				opacity: 1;
+				transform: translateY(0);
+				transition: 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+			}
+
+			.sub {
+				margin-top: clamp(18px, 2.4vw, 28px);
+				font-size: clamp(18px, 2.2vw, 28px);
+				color: var(--muted);
+				line-height: 1.35;
+			}
+
+			/* Right-side icon bubbles */
+			.icons {
+				display: grid;
+				gap: 18px;
+				justify-items: start;
+				justify-self: center;
+			}
+			.row {
+				display: flex;
+				gap: 18px;
+			}
+			.bubble {
+				width: clamp(60px, 6vw, 84px);
+				aspect-ratio: 1/1;
+				border-radius: 999px;
+				border: 2px solid #111;
+				display: grid;
+				place-items: center;
+				background: #fff;
+				box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+				opacity: 0;
+				transform: translateY(8px) scale(0.95);
+				animation: bIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+			}
+			.bubble:nth-child(1) {
+				animation-delay: 0.35s;
+			}
+			.bubble:nth-child(2) {
+				animation-delay: 0.48s;
+			}
+			.bubble:nth-child(3) {
+				animation-delay: 0.61s;
+			}
+			@keyframes bIn {
+				to {
+					opacity: 1;
+					transform: translateY(0) scale(1);
+				}
+			}
+			.bubble svg {
+				width: 60%;
+				height: 60%;
+			}
+
+			/* DevFest mark bottom-left */
+			.mark {
+				display: flex;
+				align-items: center;
+				gap: 0.7rem;
+				margin-top: clamp(24px, 4vw, 40px);
+			}
+			.mark img {
+				width: clamp(46px, 4.6vw, 60px);
+				filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
+			}
+			.mark span {
+				font-family: Poppins, Inter;
+				font-weight: 800;
+				font-size: clamp(22px, 2.6vw, 36px);
+				letter-spacing: -0.01em;
+			}
+
+			/* fade to next */
+			.fade-out {
+				animation: fadeOut 0.5s ease forwards;
+			}
+			@keyframes fadeOut {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="fit">
+			<main class="wrap">
+				<section class="card" id="screen3" aria-label="Ideas meet people">
+					<div class="grid">
+						<div class="left">
+							<h1>
+								<span class="line">This is where</span><br />
+								<span class="line">ideas meet</span><br />
+								<span class="line">people.</span>
+							</h1>
+							<p class="sub">
+								The best projects start<br />with a coffee and a conversation.
+							</p>
+
+							<div class="mark">
+								<img src="assets/dev1.png" alt="GDG chevrons" />
+								<span>DevFest</span>
+							</div>
+						</div>
+
+						<div class="right icons" aria-hidden="true">
+							<div class="row">
+								<!-- avatar yellow -->
+								<div class="bubble">
+									<svg
+										viewBox="0 0 48 48"
+										fill="none"
+										stroke="#111"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<circle cx="24" cy="24" r="22" fill="#FEE581"></circle>
+										<circle cx="24" cy="19" r="6" fill="#111"></circle>
+										<path d="M10 36a14 9 0 1 1 28 0z" fill="#111"></path>
+									</svg>
+								</div>
+								<!-- speech -->
+								<div class="bubble" style="border-radius: 22px">
+									<svg
+										viewBox="0 0 64 48"
+										fill="none"
+										stroke="#111"
+										stroke-width="3"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<rect
+											x="4"
+											y="6"
+											width="48"
+											height="30"
+											rx="12"
+											fill="#fff"
+										></rect>
+										<path d="M22 36l6 8 2-8" fill="#fff"></path>
+									</svg>
+								</div>
+							</div>
+							<div class="row">
+								<!-- avatar green -->
+								<div class="bubble">
+									<svg
+										viewBox="0 0 48 48"
+										fill="none"
+										stroke="#111"
+										stroke-width="2"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<circle cx="24" cy="24" r="22" fill="#A7F3D0"></circle>
+										<circle cx="24" cy="19" r="6" fill="#111"></circle>
+										<path d="M10 36a14 9 0 1 1 28 0z" fill="#111"></path>
+									</svg>
+								</div>
+								<!-- plus red -->
+								<div class="bubble">
+									<svg
+										viewBox="0 0 48 48"
+										fill="none"
+										stroke="#111"
+										stroke-width="3"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									>
+										<circle cx="24" cy="24" r="22" fill="#FECACA"></circle>
+										<path d="M24 14v20M14 24h20"></path>
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+		</div>
+
+		<script>
+			// 1080x1920 scaling on ?vertical=1
+			function applyVerticalScale() {
+				if (!document.body.classList.contains("vertical")) return;
+				const wrap = document.querySelector(".wrap");
+				const { innerWidth: w, innerHeight: h } = window;
+				wrap.style.transform = `scale(${Math.min(w / 1080, h / 1920)})`;
+			}
+			if (new URLSearchParams(location.search).get("vertical")) {
+				document.body.classList.add("vertical");
+				applyVerticalScale();
+				addEventListener("resize", applyVerticalScale);
+			}
+
+			// Stagger headline lines
+			const lines = document.querySelectorAll(".line");
+			lines.forEach((el, i) => {
+				setTimeout(() => el.classList.add("show"), 200 + i * 180);
+			});
+
+			// Gentle bob on bubbles after they appear
+			document.querySelectorAll(".bubble").forEach((b, i) => {
+				b.addEventListener(
+					"animationend",
+					() => {
+						b.animate(
+							[
+								{ transform: "translateY(0)" },
+								{ transform: "translateY(-4px)" },
+								{ transform: "translateY(0)" },
+							],
+							{
+								duration: 4000 + i * 300,
+								iterations: Infinity,
+								easing: "ease-in-out",
+							}
+						);
+					},
+					{ once: true }
+				);
+			});
+
+			// Auto-advance after 5s (change target if needed)
+			let advanced = false;
+			function goNext() {
+				if (advanced) return;
+				advanced = true;
+				const s3 = document.getElementById("screen3");
+				if (s3) s3.classList.add("fade-out");
+				setTimeout(() => {
+					window.location.href = "screen4.html";
+				}, 520);
+			}
+			const timer = setTimeout(goNext, 5000);
+			// allow Enter/Space to skip early
+			window.addEventListener("keydown", (e) => {
+				if (["Enter", " "].includes(e.key)) goNext();
+			});
+		</script>
+		<!-- DevFest: Next CTA (drop-in) -->
+		<div id="df-next" data-next="screen4.html" <!-- 👈 change per screen -->
+			data-autodelay=""
+			<!-- e.g. 5000 for 5s, leave empty to disable -->
+			data-label="Tap to see next →">
+			<!-- optional custom label -->
+		</div>
+
+		<style>
+			/* isolated styles (prefixed) */
+			.df-next__wrap {
+				position: fixed;
+				right: clamp(12px, 2vw, 20px);
+				bottom: clamp(12px, 2.2vw, 20px);
+				z-index: 9999;
+				pointer-events: none;
+			}
+			.df-next__btn {
+				pointer-events: auto;
+				-webkit-tap-highlight-color: transparent;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				background: rgba(17, 24, 39, 0.92);
+				color: #fff;
+				font: 700 14px/1.1 Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				padding: 0.9rem 1.15rem;
+				border-radius: 999px;
+				display: inline-flex;
+				gap: 0.6ch;
+				align-items: center;
+				box-shadow: 0 10px 28px rgba(2, 6, 23, 0.28);
+				transform: translateY(6px);
+				opacity: 0;
+				backdrop-filter: blur(4px);
+				transition: transform 0.25s ease, opacity 0.45s ease;
+			}
+			.df-next__btn svg {
+				width: 1.15em;
+				height: 1.15em;
+			}
+			.df-next__btn:focus-visible {
+				outline: 3px solid #93c5fd;
+				outline-offset: 3px;
+			}
+			.df-next__btn:hover {
+				transform: translateY(0);
+			}
+			.df-next--in .df-next__btn {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			/* shared fade-out (used if your screen doesn’t already have one) */
+			.df-fade-out {
+				animation: dfFade 0.45s ease forwards;
+			}
+			@keyframes dfFade {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+
+			/* respect reduced motion */
+			@media (prefers-reduced-motion: reduce) {
+				.df-next__btn,
+				.df-fade-out {
+					transition: none !important;
+					animation: none !important;
+				}
+			}
+		</style>
+
+		<script>
+			(function () {
+				const host = document.getElementById("df-next");
+				if (!host) return;
+				const nextUrl = host.getAttribute("data-next") || "";
+				const autoDelay = parseInt(host.getAttribute("data-autodelay")) || null;
+				const label = host.getAttribute("data-label") || "Tap to see next →";
+
+				// build button
+				const wrap = document.createElement("div");
+				wrap.className = "df-next__wrap";
+				const btn = document.createElement("button");
+				btn.type = "button";
+				btn.className = "df-next__btn";
+				btn.setAttribute("aria-label", label);
+				btn.innerHTML = `${label}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+      </svg>`;
+				wrap.appendChild(btn);
+				host.replaceWith(wrap);
+				requestAnimationFrame(() => wrap.classList.add("df-next--in"));
+
+				// find the main section to fade
+				const section =
+					document.querySelector('section[id^="screen"]') || document.body;
+				let advancing = false;
+				function goNext() {
+					if (advancing) return;
+					advancing = true;
+					if (section) section.classList.add("df-fade-out");
+					setTimeout(() => {
+						if (nextUrl) window.location.href = nextUrl;
+					}, 450);
+				}
+
+				btn.addEventListener("click", goNext);
+				// keyboard shortcut
+				window.addEventListener("keydown", (e) => {
+					if (e.key === "Enter" || e.key === " ") goNext();
+				});
+
+				// optional auto-advance
+				let timer = null;
+				if (Number.isFinite(autoDelay) && autoDelay > 0) {
+					timer = setTimeout(goNext, autoDelay);
+					// cancel auto on first interaction
+					["mousemove", "pointerdown", "keydown", "touchstart"].forEach((ev) =>
+						addEventListener(
+							ev,
+							() => {
+								if (timer) {
+									clearTimeout(timer);
+									timer = null;
+								}
+							},
+							{ once: true }
+						)
+					);
+				}
+			})();
+		</script>
+	</body>
+</html>

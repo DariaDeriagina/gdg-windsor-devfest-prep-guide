@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>DevFest Windsor 2025 — Final</title>
+
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@700;800&display=swap"
+			rel="stylesheet"
+		/>
+
+		<!-- .lottie web component -->
+		<script
+			type="module"
+			src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
+		></script>
+
+		<style>
+			:root {
+				--bg: #f7ebef;
+				--paper: #fff9;
+				--ink: #0b1220;
+				--muted: #4b5563;
+				--ring: rgba(2, 6, 23, 0.12);
+				--pill: #cfead6;
+				--g-blue: #4285f4;
+				--g-red: #ea4335;
+				--g-yellow: #fbbc04;
+				--g-green: #34a853;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				margin: 0;
+				background: var(--bg);
+				color: var(--ink);
+				font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				display: grid;
+				place-items: center;
+				padding: clamp(8px, 4vmin, 32px);
+				overflow: hidden;
+			}
+			body.vertical .stage {
+				width: 1080px;
+				height: 1920px;
+				transform-origin: center;
+			}
+
+			.stage {
+				width: min(1200px, 96vw);
+				background: var(--paper);
+				border: 1px solid var(--ring);
+				border-radius: 28px;
+				backdrop-filter: blur(8px);
+				box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+				padding: clamp(16px, 4vmin, 44px);
+				display: grid;
+				gap: clamp(16px, 3.5vmin, 32px);
+				transform: translateY(8px) scale(0.985);
+				opacity: 0;
+				animation: cardIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+			}
+			@keyframes cardIn {
+				to {
+					transform: translateY(0) scale(1);
+					opacity: 1;
+				}
+			}
+
+			.hero {
+				text-align: center;
+				display: grid;
+				gap: 0.5rem;
+			}
+			h1 {
+				font-family: Poppins, Inter, ui-sans-serif;
+				font-weight: 800;
+				letter-spacing: -0.02em;
+				line-height: 1.06;
+				font-size: clamp(28px, 9vw, 64px);
+				margin: 0;
+				text-shadow: 0 2px 0 #fff;
+			}
+			.meta {
+				font-weight: 800;
+				font-size: clamp(14px, 3.8vw, 22px);
+			}
+			.meta small {
+				display: block;
+				margin-top: 0.2rem;
+				color: var(--muted);
+				font-weight: 600;
+				font-size: clamp(12px, 3.6vw, 18px);
+			}
+
+			/* Lottie hero */
+			.lottie-wrap {
+				display: grid;
+				place-items: center;
+				gap: clamp(10px, 2vmin, 14px);
+				margin-top: clamp(6px, 2.4vmin, 16px);
+			}
+			.lottie-card {
+				width: min(360px, 60vw);
+				aspect-ratio: 1/1;
+				border-radius: 28px;
+				background: linear-gradient(160deg, #eaf4ff 0%, #ffffff 60%);
+				border: 1px solid var(--ring);
+				box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12),
+					inset 0 1px 0 rgba(255, 255, 255, 0.6);
+				display: grid;
+				place-items: center;
+				overflow: hidden;
+			}
+			.lottie-caption {
+				color: #0b3d1f;
+				font-weight: 800;
+				letter-spacing: 0.01em;
+				font-size: clamp(12px, 3.4vw, 16px);
+				opacity: 0.9;
+			}
+
+			.center {
+				display: grid;
+				place-items: center;
+				gap: clamp(10px, 2.8vmin, 20px);
+			}
+			.arrow {
+				width: clamp(34px, 9vw, 56px);
+				height: auto;
+				opacity: 0.95;
+				filter: drop-shadow(0 4px 10px rgba(2, 6, 23, 0.18));
+				animation: bob 2.6s ease-in-out infinite;
+			}
+			@keyframes bob {
+				0%,
+				100% {
+					transform: translateY(0);
+				}
+				50% {
+					transform: translateY(8px);
+				}
+			}
+			.pill {
+				display: inline-grid;
+				place-items: center;
+				padding: 0.9rem 1.6rem;
+				border-radius: 999px;
+				border: 2px solid rgba(2, 6, 23, 0.25);
+				background: var(--pill);
+				color: #0b3d1f;
+				font-weight: 900;
+				letter-spacing: 0.01em;
+				font-size: clamp(16px, 4.8vw, 28px);
+				text-decoration: none;
+				box-shadow: 0 14px 30px rgba(2, 6, 23, 0.18);
+				transition: transform 0.16s ease, box-shadow 0.16s ease;
+			}
+			.pill:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 18px 36px rgba(2, 6, 23, 0.22);
+			}
+			.pill:focus-visible {
+				outline: 4px solid #93c5fd;
+				outline-offset: 4px;
+			}
+
+			/* Modern track cards (Cloud, AI, Web, More) */
+			.tracks-grid {
+				display: grid;
+				gap: clamp(12px, 2.8vmin, 20px);
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				margin-top: clamp(10px, 3vmin, 18px);
+			}
+			@media (min-width: 820px) {
+				.tracks-grid {
+					grid-template-columns: repeat(4, minmax(0, 1fr));
+				}
+			}
+
+			.card {
+				--accent: #e5e7eb;
+				position: relative;
+				isolation: isolate;
+				background: linear-gradient(180deg, #ffffff, #fafafa);
+				border-radius: 22px;
+				border: 1px solid rgba(2, 6, 23, 0.1);
+				box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
+				padding: clamp(14px, 2.2vmin, 18px);
+				display: grid;
+				gap: 0.8rem;
+				place-items: center;
+				text-align: center;
+				transform: translateY(6px);
+				transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+					box-shadow 0.25s ease, border-color 0.25s ease;
+				overflow: hidden;
+			}
+			.card::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				border-radius: inherit;
+				background: conic-gradient(
+					from 180deg at 50% 50%,
+					color-mix(in oklab, var(--accent), #fff 80%) 0%,
+					transparent 70%
+				);
+				filter: blur(14px);
+				opacity: 0.6;
+				z-index: -1;
+			}
+			.card:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16);
+				border-color: color-mix(in oklab, var(--accent), #000 10%);
+			}
+			.badge {
+				display: inline-grid;
+				place-items: center;
+				border-radius: 14px;
+				padding: 0.5rem 0.8rem;
+				font-weight: 800;
+				letter-spacing: 0.02em;
+				font-size: clamp(12px, 3.6vw, 14px);
+				border: 1px solid rgba(2, 6, 23, 0.1);
+				background: #fff;
+				box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08),
+					inset 0 1px 0 rgba(255, 255, 255, 0.8);
+			}
+			.title {
+				font-weight: 900;
+				font-size: clamp(16px, 4.6vw, 20px);
+			}
+			.icon {
+				width: 48px;
+				height: 48px;
+				border-radius: 14px;
+				display: grid;
+				place-items: center;
+				background: #fff;
+				border: 1px solid rgba(2, 6, 23, 0.1);
+				box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+			}
+			.icon svg {
+				width: 26px;
+				height: 26px;
+			}
+			.card--cloud {
+				--accent: #bfd9ff;
+			}
+			.card--ai {
+				--accent: #ffc8c2;
+			}
+			.card--web {
+				--accent: #bfeff8;
+			}
+			.card--more {
+				--accent: #ffe2ae;
+			}
+		</style>
+	</head>
+	<body>
+		<main class="stage" id="stage">
+			<header class="hero">
+				<h1>Your journey starts here</h1>
+				<div class="meta">
+					Saturday, November 8th, 2025
+					<small>Odette School of Business, Windsor, Ontario</small>
+				</div>
+			</header>
+
+			<!-- LOTTIE (.lottie) -->
+			<section class="lottie-wrap" aria-label="Attendee animation">
+				<div class="lottie-card">
+					<dotlottie-wc
+						id="attendee"
+						src="https://lottie.host/b18ff6a9-795e-4137-b995-3b7e581f9bcf/cT2gWtAUOL.lottie"
+						autoplay
+						loop
+						style="width: 88%; height: 88%"
+					>
+					</dotlottie-wc>
+				</div>
+				<div class="lottie-caption">Heading to Google DevFest Windsor</div>
+			</section>
+
+			<!-- Arrow + CTA -->
+			<section class="center">
+				<svg
+					class="arrow"
+					viewBox="0 0 64 64"
+					fill="none"
+					stroke="#1e6f3d"
+					stroke-width="3"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					aria-hidden="true"
+				>
+					<path d="M32 6v36" />
+					<path d="M18 34l14 16 14-16" />
+				</svg>
+				<a
+					class="pill"
+					href="https://wedevfest.com"
+					target="_blank"
+					rel="noopener"
+					>wedevfest.com</a
+				>
+			</section>
+
+			<!-- Tracks -->
+			<section class="tracks-grid" aria-label="Tracks">
+				<div class="card card--cloud">
+					<span class="icon" aria-hidden="true">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="var(--g-blue)"
+							stroke-width="1.8"
+						>
+							<path
+								d="M7 18h9a4 4 0 0 0 0-8 6 6 0 0 0-11.3 2A3.5 3.5 0 0 0 7 18Z"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+					</span>
+					<span class="badge">Google Cloud</span>
+					<div class="title">GKE · Vertex AI · BigQuery</div>
+				</div>
+
+				<div class="card card--ai">
+					<span class="icon" aria-hidden="true">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="var(--g-red)"
+							stroke-width="1.8"
+						>
+							<path
+								d="M8.5 7.5a3 3 0 0 0-3 3v3A3 3 0 0 0 8.5 17h1.5V7.5H8.5ZM14 7.5V17h1.5A3 3 0 0 0 19 13.5v-3a3 3 0 0 0-3-3H14Z"
+								stroke-linejoin="round"
+							/>
+							<path
+								d="M10 10h4M10 13h4"
+								stroke-width="1.6"
+								stroke-linecap="round"
+							/>
+						</svg>
+					</span>
+					<span class="badge">AI & ML</span>
+					<div class="title">GenAI · RAG · MLOps</div>
+				</div>
+
+				<div class="card card--web">
+					<span class="icon" aria-hidden="true">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="#14A3B8"
+							stroke-width="1.8"
+						>
+							<path
+								d="M8 6 3 12l5 6M16 6l5 6-5 6"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+					</span>
+					<span class="badge">Web / Full-Stack</span>
+					<div class="title">Next.js · Firebase · UX</div>
+				</div>
+
+				<div class="card card--more">
+					<span class="icon" aria-hidden="true">
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="var(--g-yellow)"
+							stroke-width="1.8"
+						>
+							<path d="M12 5v14M5 12h14" stroke-linecap="round" />
+						</svg>
+					</span>
+					<span class="badge">And more…</span>
+					<div class="title">Career · Community · Lightning talks</div>
+				</div>
+			</section>
+		</main>
+
+		<script>
+			// Optional 1080×1920 capture via ?vertical=1
+			if (new URLSearchParams(location.search).get("vertical")) {
+				document.body.classList.add("vertical");
+				const stage = document.getElementById("stage");
+				const scale = () =>
+					(stage.style.transform = `scale(${Math.min(
+						innerWidth / 1080,
+						innerHeight / 1920
+					)})`);
+				addEventListener("resize", scale, { passive: true });
+				scale();
+			}
+
+			// Gentle pulse on the CTA once
+			const pill = document.querySelector(".pill");
+			if (
+				pill &&
+				matchMedia("(prefers-reduced-motion: no-preference)").matches
+			) {
+				pill.animate(
+					[
+						{ transform: "scale(1)" },
+						{ transform: "scale(1.04)" },
+						{ transform: "scale(1)" },
+					],
+					{
+						duration: 900,
+						easing: "cubic-bezier(.2,.8,.2,1)",
+						delay: 400,
+						iterations: 1,
+					}
+				);
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>DevFest Windsor 2025 — Screen 2</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap"
+			rel="stylesheet"
+		/>
+		<script
+			id="lottie-player-script"
+			src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
+			defer
+		></script>
+		<style>
+			:root {
+				--bg0: #f6faf7;
+				--ink: #0b1220;
+				--muted: #4b5563;
+				--ring: rgba(2, 6, 23, 0.12);
+				--g-blue: #4285f4;
+				--g-red: #ea4335;
+				--g-yellow: #fbbc04;
+				--g-green: #34a853;
+				--g-cyan: #57c6d6;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			html,
+			body {
+				height: 100%;
+			}
+			body {
+				margin: 0;
+				font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+					Helvetica, Arial;
+				color: var(--ink);
+				background: linear-gradient(
+					120deg,
+					#f6f7fb 0%,
+					#eef7ff 60%,
+					#f7fff6 100%
+				);
+				overflow: hidden;
+			}
+
+			/* --- 1080x1920 vertical recording mode (use ?vertical=1) --- */
+			body.vertical {
+				display: grid;
+				place-items: center;
+			}
+			body.vertical .wrap {
+				width: 1080px;
+				height: 1920px;
+				transform-origin: center;
+			}
+			body.vertical .frame {
+				inset: 0;
+			}
+			body.vertical .fit {
+				position: fixed;
+				inset: 0;
+				display: grid;
+				place-items: center;
+			}
+
+			/* side frames like mock */
+			.frame {
+				position: fixed;
+				inset: 0;
+				pointer-events: none;
+			}
+			.frame::before,
+			.frame::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				width: min(5vw, 60px);
+				background: var(--bg0);
+				opacity: 0.7;
+			}
+			.frame::before {
+				left: 0;
+			}
+			.frame::after {
+				right: 0;
+			}
+
+			.wrap {
+				height: 100%;
+				display: grid;
+				place-items: center;
+				padding: 6vmin;
+			}
+
+			.card {
+				width: min(1100px, 92vw);
+				background: rgba(255, 255, 255, 0.7);
+				backdrop-filter: blur(8px);
+				border: 1px solid var(--ring);
+				border-radius: 28px;
+				padding: clamp(24px, 6vmin, 54px);
+				box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
+				position: relative;
+				overflow: hidden;
+				transform: translateY(10px) scale(0.985);
+				opacity: 0;
+				animation: cardIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s forwards;
+			}
+			@keyframes cardIn {
+				to {
+					transform: translateY(0) scale(1);
+					opacity: 1;
+				}
+			}
+
+			.card::before {
+				content: "";
+				position: absolute;
+				inset: -30% -10% -10% -10%;
+				z-index: -1;
+				pointer-events: none;
+				background: radial-gradient(
+						900px 500px at 15% 20%,
+						#ffeec6 0%,
+						transparent 60%
+					),
+					radial-gradient(900px 600px at 80% 15%, #d6f7ff 0%, transparent 60%),
+					radial-gradient(900px 600px at 60% 90%, #e7ffe2 0%, transparent 60%);
+				filter: blur(10px);
+				animation: wash 14s ease-in-out infinite;
+			}
+			@keyframes wash {
+				0%,
+				100% {
+					transform: translate3d(0, 0, 0);
+				}
+				50% {
+					transform: translate3d(-2%, 1%, 0);
+				}
+			}
+
+			h1 {
+				font-family: Poppins, Inter, ui-sans-serif;
+				font-weight: 800;
+				letter-spacing: -0.02em;
+				line-height: 1.1;
+				font-size: clamp(38px, 6.6vw, 92px);
+				margin: 0 0 0.6rem 0;
+			}
+			.lead {
+				font-size: clamp(18px, 2.2vw, 28px);
+				color: var(--muted);
+				line-height: 1.35;
+				margin-top: clamp(18px, 2.2vw, 28px);
+			}
+			.sub {
+				font-size: clamp(16px, 1.8vw, 22px);
+				color: #111827;
+				margin-top: 0.6rem;
+				font-weight: 700;
+			}
+
+			.grid {
+				display: grid;
+				grid-template-columns: 1fr;
+				gap: clamp(18px, 2vw, 24px);
+			}
+			@media (min-width: 860px) {
+				.grid {
+					grid-template-columns: 1.2fr 0.8fr;
+					align-items: center;
+				}
+				.right {
+					justify-self: end;
+				}
+			}
+
+			.dots {
+				display: flex;
+				gap: clamp(16px, 2.2vw, 28px);
+				margin: clamp(18px, 3vw, 36px) 0 0 0;
+			}
+			.dot {
+				width: clamp(52px, 7.2vw, 84px);
+				aspect-ratio: 1/1;
+				border-radius: 999px;
+				border: 2px solid rgba(0, 0, 0, 0.6);
+				box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+					0 6px 18px rgba(15, 23, 42, 0.15);
+				transform: scale(0.8);
+				opacity: 0;
+				animation: dotIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+			}
+			.dot:nth-child(1) {
+				background: var(--g-green);
+				animation-delay: 0.35s;
+			}
+			.dot:nth-child(2) {
+				background: var(--g-yellow);
+				animation-delay: 0.48s;
+			}
+			.dot:nth-child(3) {
+				background: #78a7f8;
+				animation-delay: 0.61s;
+			}
+			.dot:nth-child(4) {
+				background: #ff8a73;
+				animation-delay: 0.74s;
+			}
+			.dot:nth-child(5) {
+				background: var(--g-cyan);
+				animation-delay: 0.87s;
+			}
+			@keyframes dotIn {
+				to {
+					transform: scale(1);
+					opacity: 1;
+				}
+			}
+			.dot {
+				animation: dotIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) var(--delay, 0s)
+						forwards,
+					breathe 5s ease-in-out infinite 1.2s;
+			}
+			@keyframes breathe {
+				0%,
+				100% {
+					transform: scale(1);
+				}
+				50% {
+					transform: scale(1.04);
+				}
+			}
+
+			/* Lottie overlay (logo) */
+			.lottie-wrap {
+				position: absolute;
+				left: clamp(16px, 2vw, 24px);
+				top: clamp(16px, 2vw, 24px);
+				width: min(140px, 18vw);
+				opacity: 0.95;
+				pointer-events: none;
+			}
+
+			/* fade out */
+			.fade-out {
+				animation: fadeOut 0.5s ease forwards;
+			}
+			@keyframes fadeOut {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="frame" aria-hidden></div>
+		<div class="fit">
+			<main class="wrap" role="main">
+				<section
+					class="card"
+					id="screen2"
+					aria-label="We build. We share. We grow."
+				>
+					<!-- Lottie logo overlay -->
+					<div class="lottie-wrap">
+						<lottie-player
+							id="gdgLogo"
+							autoplay
+							loop
+							mode="normal"
+							background="transparent"
+							style="width: 100%; height: 100%"
+							src="https://assets2.lottiefiles.com/packages/lf20_j1adxtyb.json"
+						></lottie-player>
+					</div>
+
+					<div class="grid">
+						<div class="left">
+							<h1>
+								<span class="line">We build.</span><br />
+								<span class="line">We share.</span><br />
+								<span class="line">We grow.</span>
+							</h1>
+
+							<div class="dots" aria-hidden>
+								<div class="dot"></div>
+								<div class="dot"></div>
+								<div class="dot"></div>
+								<div class="dot"></div>
+								<div class="dot"></div>
+							</div>
+
+							<p class="lead">Windsor’s tech community<br />in one place.</p>
+							<p class="sub">This is DevFest Windsor 2025.</p>
+						</div>
+
+						<!-- Right side: speakers picture -->
+						<div class="right">
+							<div
+								class="photo"
+								id="photo"
+								style="
+									width: min(500px, 72vw);
+									/* the speakers collage is closer to 3:4; adjust if needed */
+									aspect-ratio: 3 / 4;
+									border-radius: 24px;
+									overflow: hidden;
+									border: 1px solid var(--ring);
+									background: #fff;
+									box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18);
+									opacity: 0;
+									transform: translateY(8px) scale(0.985);
+								"
+							></div>
+						</div>
+					</div>
+				</section>
+			</main>
+		</div>
+
+		<script>
+			/* vertical 1080x1920 scaling via ?vertical=1 */
+			function applyVerticalScale() {
+				if (!document.body.classList.contains("vertical")) return;
+				const wrap = document.querySelector(".wrap");
+				const { innerWidth: w, innerHeight: h } = window;
+				wrap.style.transform = `scale(${Math.min(w / 1080, h / 1920)})`;
+			}
+			if (new URLSearchParams(location.search).get("vertical")) {
+				document.body.classList.add("vertical");
+				applyVerticalScale();
+				addEventListener("resize", applyVerticalScale);
+			}
+
+			/* lines stagger */
+			const lines = document.querySelectorAll(".line");
+			lines.forEach((el, i) => {
+				el.style.display = "inline-block";
+				el.style.opacity = "0";
+				el.style.transform = "translateY(10px)";
+				el.style.transition =
+					"transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease";
+				setTimeout(() => {
+					el.style.opacity = "1";
+					el.style.transform = "translateY(0)";
+				}, 220 + i * 160);
+			});
+
+			/* Speakers image */
+			const photo = document.getElementById("photo");
+			const img = new Image();
+			img.src = "assets/SpeakersPic.png"; // <-- положи файл сюда (или переименуй как в проекте)
+			img.onload = () => {
+				photo.appendChild(img);
+				img.style.width = "100%";
+				img.style.height = "100%";
+				img.style.objectFit = "cover";
+				photo.animate(
+					[
+						{
+							clipPath: "inset(50% 50% 50% 50% round 24px)",
+							opacity: 0,
+							transform: "translateY(8px) scale(.985)",
+						},
+						{
+							clipPath: "inset(0 0 0 0 round 24px)",
+							opacity: 1,
+							transform: "translateY(0)  scale(1)",
+						},
+					],
+					{
+						duration: 750,
+						easing: "cubic-bezier(.2,.8,.2,1)",
+						delay: 420,
+						fill: "forwards",
+					}
+				);
+			};
+
+			/* micro hover for dots */
+			document.querySelectorAll(".dot").forEach((d) => {
+				d.addEventListener("pointerenter", () =>
+					d.animate(
+						[
+							{ transform: "scale(1)" },
+							{ transform: "scale(1.12)" },
+							{ transform: "scale(1)" },
+						],
+						{ duration: 400, easing: "ease-out" }
+					)
+				);
+			});
+
+			/* AUTO-ADVANCE after 5s (no button) */
+			let advanced = false;
+			function goNext() {
+				if (advanced) return;
+				advanced = true;
+				const s2 = document.getElementById("screen2");
+				if (s2) s2.classList.add("fade-out");
+				setTimeout(() => {
+					window.location.href = "screen3.html";
+				}, 500); // change target if needed
+			}
+			// Start 5s timer right away
+			const timer = setTimeout(goNext, 5000);
+			// Optional: allow Enter/Space to skip earlier
+			window.addEventListener("keydown", (e) => {
+				if (["Enter", " "].includes(e.key)) goNext();
+			});
+		</script>
+		<!-- DevFest: Next CTA (drop-in) -->
+		<div id="df-next" data-next="screen3.html" <!-- 👈 change per screen -->
+			data-autodelay=""
+			<!-- e.g. 5000 for 5s, leave empty to disable -->
+			data-label="Tap to see next →">
+			<!-- optional custom label -->
+		</div>
+
+		<style>
+			/* isolated styles (prefixed) */
+			.df-next__wrap {
+				position: fixed;
+				right: clamp(12px, 2vw, 20px);
+				bottom: clamp(12px, 2.2vw, 20px);
+				z-index: 9999;
+				pointer-events: none;
+			}
+			.df-next__btn {
+				pointer-events: auto;
+				-webkit-tap-highlight-color: transparent;
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				background: rgba(17, 24, 39, 0.92);
+				color: #fff;
+				font: 700 14px/1.1 Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+					Helvetica, Arial;
+				padding: 0.9rem 1.15rem;
+				border-radius: 999px;
+				display: inline-flex;
+				gap: 0.6ch;
+				align-items: center;
+				box-shadow: 0 10px 28px rgba(2, 6, 23, 0.28);
+				transform: translateY(6px);
+				opacity: 0;
+				backdrop-filter: blur(4px);
+				transition: transform 0.25s ease, opacity 0.45s ease;
+			}
+			.df-next__btn svg {
+				width: 1.15em;
+				height: 1.15em;
+			}
+			.df-next__btn:focus-visible {
+				outline: 3px solid #93c5fd;
+				outline-offset: 3px;
+			}
+			.df-next__btn:hover {
+				transform: translateY(0);
+			}
+			.df-next--in .df-next__btn {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			/* shared fade-out (used if your screen doesn’t already have one) */
+			.df-fade-out {
+				animation: dfFade 0.45s ease forwards;
+			}
+			@keyframes dfFade {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+
+			/* respect reduced motion */
+			@media (prefers-reduced-motion: reduce) {
+				.df-next__btn,
+				.df-fade-out {
+					transition: none !important;
+					animation: none !important;
+				}
+			}
+		</style>
+
+		<script>
+			(function () {
+				const host = document.getElementById("df-next");
+				if (!host) return;
+				const nextUrl = host.getAttribute("data-next") || "";
+				const autoDelay = parseInt(host.getAttribute("data-autodelay")) || null;
+				const label = host.getAttribute("data-label") || "Tap to see next →";
+
+				// build button
+				const wrap = document.createElement("div");
+				wrap.className = "df-next__wrap";
+				const btn = document.createElement("button");
+				btn.type = "button";
+				btn.className = "df-next__btn";
+				btn.setAttribute("aria-label", label);
+				btn.innerHTML = `${label}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+      </svg>`;
+				wrap.appendChild(btn);
+				host.replaceWith(wrap);
+				requestAnimationFrame(() => wrap.classList.add("df-next--in"));
+
+				// find the main section to fade
+				const section =
+					document.querySelector('section[id^="screen"]') || document.body;
+				let advancing = false;
+				function goNext() {
+					if (advancing) return;
+					advancing = true;
+					if (section) section.classList.add("df-fade-out");
+					setTimeout(() => {
+						if (nextUrl) window.location.href = nextUrl;
+					}, 450);
+				}
+
+				btn.addEventListener("click", goNext);
+				// keyboard shortcut
+				window.addEventListener("keydown", (e) => {
+					if (e.key === "Enter" || e.key === " ") goNext();
+				});
+
+				// optional auto-advance
+				let timer = null;
+				if (Number.isFinite(autoDelay) && autoDelay > 0) {
+					timer = setTimeout(goNext, autoDelay);
+					// cancel auto on first interaction
+					["mousemove", "pointerdown", "keydown", "touchstart"].forEach((ev) =>
+						addEventListener(
+							ev,
+							() => {
+								if (timer) {
+									clearTimeout(timer);
+									timer = null;
+								}
+							},
+							{ once: true }
+						)
+					);
+				}
+			})();
+		</script>
+	</body>
+</html>
