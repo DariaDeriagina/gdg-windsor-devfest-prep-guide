@@ -3,351 +3,392 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>DevFest Windsor 2025 — What to do</title>
+		<title>DevFest Windsor 2025 — Speakers</title>
+
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@800&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@700;800&display=swap"
 			rel="stylesheet"
 		/>
+
+		<!-- dotlottie web component -->
 		<script
-			type="module"
 			src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
+			type="module"
 		></script>
+
 		<style>
 			:root {
 				--ink: #0b1220;
 				--muted: #4b5563;
-				--blue: #4285f4;
-				--green: #34a853;
-				--yellow: #fbbc04;
-				--red: #ea4335;
+				--ring: rgba(2, 6, 23, 0.12);
+				--g-blue: #4285f4;
+				--g-yellow: #fbbc04;
+				--g-green: #34a853;
 			}
+
 			* {
 				box-sizing: border-box;
 			}
+			html,
 			body {
+				height: 100%;
 				margin: 0;
-				font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial;
+				padding: 0;
+			}
+
+			body {
+				font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
+					Helvetica, Arial;
 				color: var(--ink);
-				background: #fafbfc;
+				background: linear-gradient(
+					120deg,
+					#f6f7fb 0%,
+					#eef7ff 60%,
+					#f7fff6 100%
+				);
+				overflow-x: hidden;
+				overflow-y: auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 100svh;
 			}
+
 			.wrap {
-				max-width: 1100px;
-				margin: auto;
-				padding: 28px;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: clamp(16px, 4vw, 40px);
 			}
+
 			.card {
-				background: #fff;
-				border: 1px solid rgba(2, 6, 23, 0.08);
-				border-radius: 20px;
-				padding: 28px;
-				display: grid;
-				gap: 24px;
-				grid-template-columns: 1.1fr 0.9fr;
+				width: min(1100px, 92vw);
+				background: rgba(255, 255, 255, 0.75);
+				backdrop-filter: blur(8px);
+				border: 1px solid var(--ring);
+				border-radius: 28px;
+				box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
+				padding: clamp(20px, 5vw, 48px);
+				transform: translateY(10px) scale(0.985);
+				opacity: 0;
+				animation: cardIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
 			}
-			@media (max-width: 900px) {
-				.card {
-					grid-template-columns: 1fr;
+
+			@keyframes cardIn {
+				to {
+					transform: translateY(0) scale(1);
+					opacity: 1;
+				}
+			}
+
+			.grid {
+				display: grid;
+				gap: clamp(14px, 2vw, 22px);
+				grid-template-columns: 1fr;
+				grid-template-areas:
+					"lottie"
+					"title"
+					"steps"
+					"video"
+					"button";
+				align-items: center;
+				justify-items: center;
+			}
+
+			@media (min-width: 960px) {
+				.grid {
+					grid-template-columns: 1.05fr 0.95fr;
+					grid-template-areas:
+						"lottie video"
+						"title  video"
+						"steps  video"
+						"button video";
+					align-items: center;
+					justify-items: start;
+				}
+			}
+
+			/* Lottie (new animation, above & slightly left) */
+			.lottie-wrap {
+				grid-area: lottie;
+				display: flex;
+				justify-content: flex-start;
+				align-items: flex-start;
+				width: 100%;
+				margin: -10px 0 10px -15px;
+			}
+
+			.lottie-wrap dotlottie-wc {
+				width: clamp(140px, 18vw, 200px);
+				height: auto;
+			}
+
+			@media (max-width: 959px) {
+				.lottie-wrap {
+					justify-content: flex-start;
+					margin: 0 0 10px -10px;
+					width: 100%;
+				}
+				.lottie-wrap dotlottie-wc {
+					width: clamp(160px, 55vw, 220px);
 				}
 			}
 
 			h1 {
-				font: 800 clamp(28px, 6vw, 56px) / 1.06 Poppins, Inter;
+				grid-area: title;
+				font-family: Poppins, Inter, ui-sans-serif;
+				font-weight: 800;
+				letter-spacing: -0.02em;
+				line-height: 1.08;
+				font-size: clamp(34px, 5.6vw, 70px);
 				margin: 0;
-			}
-			.sub {
-				margin: 0.5rem 0 0;
-				color: var(--muted);
-				font-size: clamp(16px, 2.2vw, 20px);
+				text-align: left;
+				width: 100%;
 			}
 
-			/* checklist (inline lottie beside each line) */
-			.preplist {
-				margin: 16px 0 0;
+			/* Steps */
+			.steps {
+				grid-area: steps;
+				margin: clamp(10px, 1.8vw, 18px) 0;
 				padding: 0;
 				list-style: none;
 				display: grid;
-				gap: 12px;
-			}
-			.preplist li {
-				display: grid;
-				grid-template-columns: minmax(0, 1fr) auto; /* text | lottie */
-				align-items: center;
-				gap: 14px;
-				padding: 0.9rem 1rem;
-				border: 1px solid rgba(2, 6, 23, 0.08);
-				border-radius: 12px;
-				background: #fff;
-				opacity: 0;
-				transform: translateY(8px);
-				transition: opacity 0.48s ease, transform 0.48s ease;
-			}
-			.preplist li.show {
-				opacity: 1;
-				transform: none;
+				gap: clamp(12px, 1.8vw, 16px);
+				font-size: clamp(22px, 2.6vw, 30px);
+				font-weight: 700;
+				color: var(--ink);
+				width: 100%;
+				max-width: 46ch;
 			}
 
-			.row {
-				display: flex;
-				align-items: center;
-				gap: 0.8rem;
-				min-width: 0;
-			}
-			.dot {
-				width: 16px;
-				height: 16px;
-				border-radius: 50%;
-			}
-			.b {
-				background: var(--blue);
-			}
-			.y {
-				background: var(--yellow);
-			}
-			.g {
-				background: var(--green);
-			}
-			.text {
-				font-weight: 800;
-				font-size: clamp(1rem, 2.2vw, 1.2rem);
+			.steps li {
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
+				opacity: 0;
+				transform: translateY(16px);
+				animation: stepIn 1.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+				padding-left: 14px;
+				border-left: 6px solid transparent;
 			}
 
-			/* per-item lottie (inline, fixed width) */
-			.miniLottie {
-				width: 120px;
-				height: 90px; /* consistent thumb box */
-				border: 1px solid rgba(2, 6, 23, 0.08);
-				border-radius: 10px;
+			.steps li:nth-child(1) {
+				animation-delay: 0.6s;
+				border-left-color: var(--g-blue);
+			}
+			.steps li:nth-child(2) {
+				animation-delay: 2s;
+				border-left-color: var(--g-yellow);
+			}
+			.steps li:nth-child(3) {
+				animation-delay: 3.4s;
+				border-left-color: var(--g-green);
+			}
+
+			@keyframes stepIn {
+				0% {
+					opacity: 0;
+					transform: translateY(18px);
+				}
+				65% {
+					opacity: 0.75;
+					transform: translateY(6px);
+				}
+				100% {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			.video-wrap {
+				grid-area: video;
+				width: min(560px, 76vw);
+				aspect-ratio: 3/4;
+				border-radius: 24px;
 				overflow: hidden;
+				border: 1px solid var(--ring);
+				background: #000;
+				box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18);
 				opacity: 0;
-				transform: translateY(6px);
-				transition: opacity 0.48s ease, transform 0.48s ease;
+				transform: translateY(8px) scale(0.985);
+				animation: vidIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s forwards;
+				position: relative;
+				justify-self: center;
 			}
-			li.show .miniLottie {
-				opacity: 1;
-				transform: none;
+
+			@keyframes vidIn {
+				to {
+					opacity: 1;
+					transform: translateY(0) scale(1);
+				}
 			}
-			.miniLottie dotlottie-wc {
+
+			.video-wrap video {
 				width: 100%;
 				height: 100%;
+				object-fit: cover;
+				display: block;
 			}
 
-			/* mobile: still next-to (smaller), not below */
-			@media (max-width: 600px) {
-				.preplist li {
-					gap: 10px;
-				}
-				.miniLottie {
-					width: 92px;
-					height: 70px;
-				}
-				.text {
-					font-weight: 800;
-					font-size: clamp(1rem, 2.2vw, 1.2rem);
-					white-space: normal; /* ← allow wrap */
-					overflow: visible; /* ← no clipping */
-					text-overflow: unset;
-					word-break: break-word; /* ← long words wrap too */
-					line-height: 1.2;
-				}
-
-				/* mobile: keep Lottie smaller so text has room */
-				@media (max-width: 600px) {
-					.preplist li {
-						gap: 10px;
-						align-items: flex-start;
-					}
-					.miniLottie {
-						width: 88px;
-						height: 64px;
-					} /* was 92x70 */
-					.text {
-						font-size: clamp(1rem, 4.2vw, 1.1rem);
-						line-height: 1.25;
-					}
-				}
-			}
-
-			/* centered CTA */
-			.cta-wrap {
+			.speak-actions {
+				grid-area: button;
 				display: flex;
 				justify-content: center;
+				margin-top: clamp(12px, 2vmin, 18px);
+				width: 100%;
 			}
-			.btn {
-				margin-top: 18px;
+
+			.speak-btn {
 				display: inline-flex;
 				align-items: center;
+				justify-content: center;
 				gap: 0.7ch;
-				padding: 1rem 1.8rem;
+				padding: 1rem 1.35rem;
 				border-radius: 999px;
 				border: 0;
 				font-weight: 800;
-				font-size: clamp(18px, 2.6vw, 22px);
-				letter-spacing: 0.01em;
-				color: #fff;
+				font-size: clamp(17px, 3.2vw, 19px);
+				color: #0b1220;
+				background: linear-gradient(135deg, var(--g-blue), var(--g-green));
+				box-shadow: 0 16px 36px rgba(26, 115, 232, 0.35);
 				cursor: pointer;
-				-webkit-tap-highlight-color: transparent;
-				background: linear-gradient(90deg, #4285f4, #ea4335, #fbbc04, #34a853);
-				background-size: 300% 100%;
-				animation: gshift 6s ease-in-out infinite;
-				box-shadow: 0 10px 28px rgba(2, 6, 23, 0.18);
-				transition: transform 0.15s ease, box-shadow 0.25s ease,
-					filter 0.25s ease;
-			}
-			@keyframes gshift {
-				0%,
-				100% {
-					background-position: 0% 50%;
-				}
-				50% {
-					background-position: 100% 50%;
-				}
-			}
-			.btn:hover {
-				transform: translateY(-2px);
-				box-shadow: 0 14px 36px rgba(2, 6, 23, 0.22);
-				filter: brightness(1.05);
-			}
-			.btn:focus-visible {
-				outline: 0;
-				box-shadow: 0 0 0 6px rgba(66, 133, 244, 0.3);
+				transition: transform 0.18s ease, box-shadow 0.18s ease,
+					filter 0.18s ease;
+				width: 100%;
+				max-width: 360px;
 			}
 
-			/* headline stagger */
-			.line {
-				opacity: 0;
-				transform: translateY(6px);
+			.speak-btn:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 20px 42px rgba(26, 115, 232, 0.45);
+				filter: brightness(1.03);
 			}
-			.line.show {
-				opacity: 1;
-				transform: none;
-				transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+			.speak-btn:active {
+				transform: translateY(0);
+				filter: brightness(0.98);
+			}
+
+			.fade-out {
+				animation: fade 0.45s ease forwards;
+			}
+			@keyframes fade {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				* {
+					animation-duration: 0s !important;
+					transition-duration: 0s !important;
+				}
+			}
+			/* Extra breathing space for small mobile screens like Galaxy S8+ */
+			@media (max-width: 420px) {
+				.card {
+					margin-top: 24px; /* adjust between 16–32px depending on your test */
+				}
 			}
 		</style>
 	</head>
+
 	<body>
 		<main class="wrap">
-			<section
-				class="card"
-				id="screen3"
-				aria-label="Quick pre-festival checklist"
-			>
-				<div>
-					<h1>
-						<span class="line">Make the most</span><br />
-						<span class="line">of DevFest</span>
-					</h1>
-					<p class="sub">Do these before you go:</p>
+			<section class="card" id="screen3" aria-label="Speakers guidance">
+				<div class="grid">
+					<!-- Lottie (new animation) -->
+					<div class="lottie-wrap">
+						<dotlottie-wc
+							src="https://lottie.host/607a77a8-1ac3-4846-8c97-26f0934c08ce/qazQdaZwSb.lottie"
+							autoplay
+							loop
+						></dotlottie-wc>
+					</div>
 
-					<ol
-						class="preplist"
-						aria-label="Pre-festival checklist (each item with its animation)"
-					>
-						<!-- 1: SPEAKERS -->
-						<li id="item-speakers">
-							<div class="row">
-								<span class="dot b" aria-hidden="true"></span>
-								<span class="text"><b>Check the speakers</b></span>
-							</div>
-							<div class="miniLottie" aria-label="Speakers animation">
-								<dotlottie-wc
-									src="https://lottie.host/607a77a8-1ac3-4846-8c97-26f0934c08ce/qazQdaZwSb.lottie"
-									autoplay
-									loop
-								>
-								</dotlottie-wc>
-							</div>
-						</li>
+					<!-- Title -->
+					<h1>See who’s speaking</h1>
 
-						<!-- 2: SPONSORS -->
-						<li id="item-sponsors">
-							<div class="row">
-								<span class="dot y" aria-hidden="true"></span>
-								<span class="text"><b>Review sponsors</b></span>
-							</div>
-							<div class="miniLottie" aria-label="Sponsors animation">
-								<dotlottie-wc
-									src="https://lottie.host/09acb9c6-ac4e-4716-b182-e2d5e4651b61/ddgJ4Y1pgS.lottie"
-									autoplay
-									loop
-								>
-								</dotlottie-wc>
-							</div>
-						</li>
-
-						<!-- 3: SESSIONS -->
-						<li id="item-sessions">
-							<div class="row">
-								<span class="dot g" aria-hidden="true"></span>
-								<span class="text"><b>Preview sessions</b></span>
-							</div>
-							<div class="miniLottie" aria-label="Sessions animation">
-								<dotlottie-wc
-									src="https://lottie.host/1a5eea6a-7786-4437-acd1-e3ec977b9cf6/nLF91Pye5D.lottie"
-									autoplay
-									loop
-								>
-								</dotlottie-wc>
-							</div>
-						</li>
+					<!-- Steps -->
+					<ol class="steps" aria-label="How to prep your speakers list">
+						<li>1. Open <strong>Speakers</strong> section.</li>
+						<li>2. Read bios.</li>
+						<li>3. Add them on LinkedIn.</li>
 					</ol>
 
-					<div class="cta-wrap">
+					<!-- Video -->
+					<div class="video-wrap" id="videoWrap">
+						<video
+							id="speakersVid"
+							src="assets/SpeakersIntro.mp4"
+							poster="assets/SpeakersPic.png"
+							preload="auto"
+							muted
+							playsinline
+							autoplay
+							loop
+							aria-label="Speakers and community highlights"
+						></video>
+					</div>
+
+					<!-- Button -->
+					<div class="speak-actions">
 						<button
-							class="btn"
-							id="detailsBtn"
-							aria-label="Open details and tips"
+							class="speak-btn"
+							type="button"
+							aria-label="Next tip"
+							onclick="goNext()"
 						>
-							Details & Tips →
+							Next tip
+							<svg
+								viewBox="0 0 24 24"
+								width="18"
+								height="18"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path d="M5 12h14" />
+								<path d="M12 5l7 7-7 7" />
+							</svg>
 						</button>
 					</div>
 				</div>
-
-				<!-- Right-side decorative Lottie removed to avoid duplication; each line has its own -->
-				<div></div>
 			</section>
 		</main>
 
 		<script>
-			// Headline stagger
-			document
-				.querySelectorAll(".line")
-				.forEach((el, i) =>
-					setTimeout(() => el.classList.add("show"), 120 + i * 200)
-				);
-
-			// Reveal each LI (phrase + its lottie together)
-			const items = document.querySelectorAll(".preplist li");
-			items.forEach((li, i) => {
-				setTimeout(() => li.classList.add("show"), 420 + i * 300);
-			});
-
-			// Reduced motion
-			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-				document
-					.querySelectorAll(".line")
-					.forEach((el) => el.classList.add("show"));
-				items.forEach((el) => el.classList.add("show"));
-				// pause lotties
-				document.querySelectorAll("dotlottie-wc").forEach((el) => {
-					try {
-						el.pause();
-					} catch (_) {}
-				});
+			function goNext() {
+				const s2 = document.getElementById("screen3");
+				s2.classList.add("fade-out");
+				setTimeout(() => (location.href = "screen4.html"), 450);
 			}
 
-			// CTA
-			const goDetails = () => (location.href = "screen4-details.html");
-			document
-				.getElementById("detailsBtn")
-				.addEventListener("click", goDetails);
-			addEventListener(
-				"keydown",
-				(e) => (e.key === "Enter" || e.key === " ") && goDetails()
-			);
+			const vid = document.getElementById("speakersVid");
+			if (vid) {
+				vid.muted = true;
+				const tryPlay = () => vid.play().catch(() => {});
+				if (vid.readyState >= 2) tryPlay();
+				else vid.addEventListener("canplay", tryPlay, { once: true });
+			}
+
+			const prefersReduce = window.matchMedia(
+				"(prefers-reduced-motion: reduce)"
+			).matches;
+			const lottie = document.querySelector(".lottie-wrap dotlottie-wc");
+			if (prefersReduce && lottie && lottie.pause) {
+				lottie.pause();
+			}
 		</script>
 	</body>
 </html>

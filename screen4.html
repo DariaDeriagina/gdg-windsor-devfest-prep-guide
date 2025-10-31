@@ -152,7 +152,7 @@
 				position: absolute;
 				bottom: 16px;
 				left: 50%;
-				transform: translateX(-50%);
+				transform: translate3d(-50%, 0, 0); /* keep center */
 				background: linear-gradient(
 					90deg,
 					var(--halloween1),
@@ -170,8 +170,9 @@
 				box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
 				transition: transform 0.25s ease, box-shadow 0.25s ease;
 			}
+			/* Hover (keep the same X) */
 			.cta:hover {
-				transform: translateY(-3px);
+				transform: translate3d(-50%, -3px, 0);
 				box-shadow: 0 12px 28px rgba(255, 138, 0, 0.35);
 			}
 			.sr-only {
@@ -194,6 +195,17 @@
 				}
 				.hint {
 					bottom: 56px;
+				}
+			}
+
+			/* Exit transition */
+			.fade-out {
+				animation: fadeOut 0.45s ease forwards;
+			}
+			@keyframes fadeOut {
+				to {
+					opacity: 0;
+					transform: translateY(-6px) scale(0.995);
 				}
 			}
 		</style>
@@ -241,10 +253,18 @@
 
 			/* sponsors */
 			const LOGO_SRC = "assets/HackforgeLogoInverted.png";
-			const ITEMS = Array.from({ length: 8 }, () => ({
-				src: LOGO_SRC,
-				url: "",
-			}));
+			/* sponsors */
+			const ITEMS = [
+				{ src: "assets/googleLogo.png", url: "" },
+				{ src: "assets/deeplLogo.png", url: "" },
+				{ src: "assets/WEtechlogomain.png", url: "" },
+				{ src: "assets/uwindsorLogo.png", url: "" }, // Odette School (UWin)
+				{ src: "assets/RocketInnovation.png", url: "" },
+				{ src: "assets/solasLogo.png", url: "" },
+				{ src: "assets/HackforgeLogoInverted.png", url: "" },
+				{ src: "assets/Packt.svg", url: "" },
+			];
+
 			const mqMobile = matchMedia("(max-width:680px)");
 			const isMobile = () => mqMobile.matches;
 			const POP_BASE = () => (isMobile() ? 1200 : 900);
@@ -377,8 +397,15 @@
 			setTimeout(buildEngine, 650);
 
 			/* CTA action */
+			/* CTA → screen5.html with fade */
 			function goNext() {
-				alert("👻 Up next: DevFest surprises! (link coming soon)");
+				if (window.__leaving) return; // prevent double-activations
+				window.__leaving = true;
+				const section = document.getElementById("screenSponsors");
+				if (section) section.classList.add("fade-out");
+				setTimeout(() => {
+					window.location.href = "screen5.html";
+				}, 450);
 			}
 		</script>
 	</body>
