@@ -3,514 +3,351 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>DevFest Windsor 2025 — Screen 3</title>
+		<title>DevFest Windsor 2025 — What to do</title>
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@800&display=swap"
 			rel="stylesheet"
 		/>
 		<script
-			src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
 			type="module"
+			src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
 		></script>
 		<style>
 			:root {
-				--bgSide: #f7ebef;
-				--paper: #fcfcfa;
 				--ink: #0b1220;
 				--muted: #4b5563;
-				--ring: rgba(2, 6, 23, 0.12);
-				--g-blue: #4285f4;
-				--g-red: #ea4335;
-				--g-yellow: #fbbc04;
-				--g-green: #34a853;
+				--blue: #4285f4;
+				--green: #34a853;
+				--yellow: #fbbc04;
+				--red: #ea4335;
 			}
 			* {
 				box-sizing: border-box;
 			}
-			html,
-			body {
-				height: 100%;
-			}
 			body {
 				margin: 0;
-				font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
-					Helvetica, Arial;
+				font-family: Inter, system-ui, Segoe UI, Roboto, Helvetica, Arial;
 				color: var(--ink);
-				background: linear-gradient(
-					90deg,
-					var(--bgSide) 0 10vw,
-					transparent 10vw calc(100% - 10vw),
-					var(--bgSide) calc(100% - 10vw)
-				);
-				overflow: hidden;
+				background: #fafbfc;
 			}
-			/* vertical capture */
-			body.vertical {
-				display: grid;
-				place-items: center;
-			}
-			body.vertical .wrap {
-				width: 1080px;
-				height: 1920px;
-				transform-origin: center;
-			}
-			body.vertical .fit {
-				position: fixed;
-				inset: 0;
-				display: grid;
-				place-items: center;
-			}
-
 			.wrap {
-				height: 100%;
-				display: grid;
-				place-items: center;
-				padding: 6vmin;
+				max-width: 1100px;
+				margin: auto;
+				padding: 28px;
 			}
 			.card {
-				width: min(1180px, 92vw);
-				background: var(--paper);
-				border: 1px solid var(--ring);
-				border-radius: 28px;
-				box-shadow: 0 20px 60px rgba(15, 23, 42, 0.1);
-				padding: clamp(28px, 6vmin, 64px);
-				position: relative;
-				overflow: hidden;
-				transform: translateY(8px) scale(0.985);
-				opacity: 0;
-				animation: in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
-			}
-			@keyframes in {
-				to {
-					transform: translateY(0) scale(1);
-					opacity: 1;
-				}
-			}
-			.card::before {
-				content: "";
-				position: absolute;
-				inset: -20% -10% -10% -10%;
-				pointer-events: none;
-				z-index: 0;
-				background: radial-gradient(
-						900px 600px at 15% 20%,
-						rgba(255, 214, 214, 0.25),
-						transparent 60%
-					),
-					radial-gradient(
-						900px 600px at 85% 80%,
-						rgba(214, 240, 255, 0.25),
-						transparent 60%
-					);
-				filter: blur(10px);
-				animation: wash 14s ease-in-out infinite;
-			}
-			@keyframes wash {
-				0%,
-				100% {
-					transform: translate3d(0, 0, 0);
-				}
-				50% {
-					transform: translate3d(-2%, 1%, 0);
-				}
-			}
-
-			.grid {
-				position: relative;
-				z-index: 1;
+				background: #fff;
+				border: 1px solid rgba(2, 6, 23, 0.08);
+				border-radius: 20px;
+				padding: 28px;
 				display: grid;
-				gap: clamp(18px, 2vw, 28px);
-				grid-template-columns: 1.15fr 0.85fr;
-				align-items: center;
+				gap: 24px;
+				grid-template-columns: 1.1fr 0.9fr;
 			}
 			@media (max-width: 900px) {
-				.grid {
+				.card {
 					grid-template-columns: 1fr;
 				}
 			}
 
 			h1 {
-				font-family: Poppins, Inter, ui-sans-serif;
-				font-weight: 800;
-				letter-spacing: -0.02em;
-				font-size: clamp(38px, 6.2vw, 88px);
-				line-height: 1.06;
+				font: 800 clamp(28px, 6vw, 56px) / 1.06 Poppins, Inter;
 				margin: 0;
 			}
-			.line {
-				display: inline-block;
-				opacity: 0;
-				transform: translateY(10px);
-			}
-			.line.show {
-				opacity: 1;
-				transform: translateY(0);
-				transition: 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-			}
 			.sub {
-				margin-top: clamp(14px, 2.2vw, 22px);
-				font-size: clamp(18px, 2vw, 24px);
+				margin: 0.5rem 0 0;
 				color: var(--muted);
-				line-height: 1.45;
+				font-size: clamp(16px, 2.2vw, 20px);
 			}
 
-			/* Bigger checklist styling */
+			/* checklist (inline lottie beside each line) */
 			.preplist {
-				margin: clamp(16px, 3vw, 32px) 0 0;
+				margin: 16px 0 0;
 				padding: 0;
 				list-style: none;
 				display: grid;
-				gap: 18px;
+				gap: 12px;
 			}
-
 			.preplist li {
 				display: grid;
-				grid-template-columns: auto 1fr;
-				gap: 1rem;
+				grid-template-columns: minmax(0, 1fr) auto; /* text | lottie */
 				align-items: center;
-				background: #fff;
+				gap: 14px;
+				padding: 0.9rem 1rem;
 				border: 1px solid rgba(2, 6, 23, 0.08);
-				border-radius: 16px;
-				padding: 1.1rem 1.4rem;
-				box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
-				transition: transform 0.2s ease, box-shadow 0.2s ease;
+				border-radius: 12px;
+				background: #fff;
+				opacity: 0;
+				transform: translateY(8px);
+				transition: opacity 0.48s ease, transform 0.48s ease;
+			}
+			.preplist li.show {
+				opacity: 1;
+				transform: none;
 			}
 
-			.preplist li:hover {
-				transform: translateY(-2px);
-				box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+			.row {
+				display: flex;
+				align-items: center;
+				gap: 0.8rem;
+				min-width: 0;
 			}
-
-			.preplist .dot {
-				width: 22px;
-				height: 22px;
+			.dot {
+				width: 16px;
+				height: 16px;
 				border-radius: 50%;
-				flex-shrink: 0;
 			}
-
-			.c-blue {
-				background: var(--g-blue);
+			.b {
+				background: var(--blue);
 			}
-			.c-green {
-				background: var(--g-green);
+			.y {
+				background: var(--yellow);
 			}
-			.c-yellow {
-				background: var(--g-yellow);
+			.g {
+				background: var(--green);
 			}
-			.c-red {
-				background: var(--g-red);
-			}
-
-			.preplist b {
-				font-size: clamp(1.2rem, 2vw, 1.6rem);
-				font-weight: 700;
-				color: var(--ink);
-				letter-spacing: -0.01em;
-			}
-
-			/* right Lottie panel */
-			.lottieWrap {
-				display: grid;
-				place-items: center;
-				width: min(480px, 42vw);
-				margin-inline: auto;
-			}
-			.lottieFrame {
-				width: 100%;
-				aspect-ratio: 16/12;
-				border-radius: 22px;
-				background: #fff;
-				border: 1px solid rgba(2, 6, 23, 0.08);
-				box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+			.text {
+				font-weight: 800;
+				font-size: clamp(1rem, 2.2vw, 1.2rem);
+				white-space: nowrap;
 				overflow: hidden;
+				text-overflow: ellipsis;
 			}
-			.lottieFrame dotlottie-wc {
+
+			/* per-item lottie (inline, fixed width) */
+			.miniLottie {
+				width: 120px;
+				height: 90px; /* consistent thumb box */
+				border: 1px solid rgba(2, 6, 23, 0.08);
+				border-radius: 10px;
+				overflow: hidden;
+				opacity: 0;
+				transform: translateY(6px);
+				transition: opacity 0.48s ease, transform 0.48s ease;
+			}
+			li.show .miniLottie {
+				opacity: 1;
+				transform: none;
+			}
+			.miniLottie dotlottie-wc {
 				width: 100%;
 				height: 100%;
 			}
 
-			/* DevFest mark */
-			.mark {
-				display: flex;
-				align-items: center;
-				gap: 0.7rem;
-				margin-top: clamp(18px, 3vw, 28px);
-			}
-			.mark img {
-				display: block;
-			}
-			.logo-full {
-				width: min(320px, 80%);
-				height: auto;
-				filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.15));
-			}
-			.mark span {
+			/* mobile: still next-to (smaller), not below */
+			@media (max-width: 600px) {
+				.preplist li {
+					gap: 10px;
+				}
+				.miniLottie {
+					width: 92px;
+					height: 70px;
+				}
+				.text {
+					font-weight: 800;
+					font-size: clamp(1rem, 2.2vw, 1.2rem);
+					white-space: normal; /* ← allow wrap */
+					overflow: visible; /* ← no clipping */
+					text-overflow: unset;
+					word-break: break-word; /* ← long words wrap too */
+					line-height: 1.2;
+				}
+
+				/* mobile: keep Lottie smaller so text has room */
+				@media (max-width: 600px) {
+					.preplist li {
+						gap: 10px;
+						align-items: flex-start;
+					}
+					.miniLottie {
+						width: 88px;
+						height: 64px;
+					} /* was 92x70 */
+					.text {
+						font-size: clamp(1rem, 4.2vw, 1.1rem);
+						line-height: 1.25;
+					}
+				}
 			}
 
-			/* fade to next */
-			.fade-out {
-				animation: fadeOut 0.5s ease forwards;
+			/* centered CTA */
+			.cta-wrap {
+				display: flex;
+				justify-content: center;
 			}
-			@keyframes fadeOut {
-				to {
-					opacity: 0;
-					transform: translateY(-6px) scale(0.995);
+			.btn {
+				margin-top: 18px;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.7ch;
+				padding: 1rem 1.8rem;
+				border-radius: 999px;
+				border: 0;
+				font-weight: 800;
+				font-size: clamp(18px, 2.6vw, 22px);
+				letter-spacing: 0.01em;
+				color: #fff;
+				cursor: pointer;
+				-webkit-tap-highlight-color: transparent;
+				background: linear-gradient(90deg, #4285f4, #ea4335, #fbbc04, #34a853);
+				background-size: 300% 100%;
+				animation: gshift 6s ease-in-out infinite;
+				box-shadow: 0 10px 28px rgba(2, 6, 23, 0.18);
+				transition: transform 0.15s ease, box-shadow 0.25s ease,
+					filter 0.25s ease;
+			}
+			@keyframes gshift {
+				0%,
+				100% {
+					background-position: 0% 50%;
 				}
+				50% {
+					background-position: 100% 50%;
+				}
+			}
+			.btn:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 14px 36px rgba(2, 6, 23, 0.22);
+				filter: brightness(1.05);
+			}
+			.btn:focus-visible {
+				outline: 0;
+				box-shadow: 0 0 0 6px rgba(66, 133, 244, 0.3);
+			}
+
+			/* headline stagger */
+			.line {
+				opacity: 0;
+				transform: translateY(6px);
+			}
+			.line.show {
+				opacity: 1;
+				transform: none;
+				transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 			}
 		</style>
 	</head>
 	<body>
-		<div class="fit">
-			<main class="wrap">
-				<section class="card" id="screen3" aria-label="Get ready to connect">
-					<div class="grid">
-						<div class="left">
-							<h1>
-								<span class="line">Ready to</span><br />
-								<span class="line">make the most</span><br />
-								<span class="line">of DevFest?</span>
-							</h1>
-							<p class="sub">
-								Quick prep before the festival so you can meet the right people
-								and catch the best sessions.
-							</p>
+		<main class="wrap">
+			<section
+				class="card"
+				id="screen3"
+				aria-label="Quick pre-festival checklist"
+			>
+				<div>
+					<h1>
+						<span class="line">Make the most</span><br />
+						<span class="line">of DevFest</span>
+					</h1>
+					<p class="sub">Do these before you go:</p>
 
-							<ul class="preplist" aria-label="Pre-festival checklist">
-								<li>
-									<span class="dot c-blue" aria-hidden="true"></span>
-									<div><b>Learn who will speak</b></div>
-								</li>
-								<li>
-									<span class="dot c-yellow" aria-hidden="true"></span>
-									<div><b>See the sponsors</b></div>
-								</li>
-								<li>
-									<span class="dot c-green" aria-hidden="true"></span>
-									<div><b>Preview the sessions</b></div>
-								</li>
-								<li>
-									<span class="dot c-red" aria-hidden="true"></span>
-									<div><b>Connect before the festival</b></div>
-								</li>
-							</ul>
-							<!-- new button -->
-							<button class="details-btn" id="detailsBtn">
-								Check tips in detail →
-							</button>
-
-							<div class="mark">
-								<img
-									src="assets/GDGWindsorLogo.png"
-									alt="DevFest · GDG Windsor logo"
-									class="logo-full"
-								/>
+					<ol
+						class="preplist"
+						aria-label="Pre-festival checklist (each item with its animation)"
+					>
+						<!-- 1: SPEAKERS -->
+						<li id="item-speakers">
+							<div class="row">
+								<span class="dot b" aria-hidden="true"></span>
+								<span class="text"><b>Check the speakers</b></span>
 							</div>
-						</div>
-
-						<div
-							class="right lottieWrap"
-							aria-label="People connecting animation"
-						>
-							<div class="lottieFrame">
+							<div class="miniLottie" aria-label="Speakers animation">
 								<dotlottie-wc
-									src="https://lottie.host/e1e2c36e-8657-4524-8093-58e9161d7b61/d7hE4bSP13.lottie"
+									src="https://lottie.host/607a77a8-1ac3-4846-8c97-26f0934c08ce/qazQdaZwSb.lottie"
 									autoplay
 									loop
-								></dotlottie-wc>
+								>
+								</dotlottie-wc>
 							</div>
-						</div>
+						</li>
+
+						<!-- 2: SPONSORS -->
+						<li id="item-sponsors">
+							<div class="row">
+								<span class="dot y" aria-hidden="true"></span>
+								<span class="text"><b>Review sponsors</b></span>
+							</div>
+							<div class="miniLottie" aria-label="Sponsors animation">
+								<dotlottie-wc
+									src="https://lottie.host/09acb9c6-ac4e-4716-b182-e2d5e4651b61/ddgJ4Y1pgS.lottie"
+									autoplay
+									loop
+								>
+								</dotlottie-wc>
+							</div>
+						</li>
+
+						<!-- 3: SESSIONS -->
+						<li id="item-sessions">
+							<div class="row">
+								<span class="dot g" aria-hidden="true"></span>
+								<span class="text"><b>Preview sessions</b></span>
+							</div>
+							<div class="miniLottie" aria-label="Sessions animation">
+								<dotlottie-wc
+									src="https://lottie.host/1a5eea6a-7786-4437-acd1-e3ec977b9cf6/nLF91Pye5D.lottie"
+									autoplay
+									loop
+								>
+								</dotlottie-wc>
+							</div>
+						</li>
+					</ol>
+
+					<div class="cta-wrap">
+						<button
+							class="btn"
+							id="detailsBtn"
+							aria-label="Open details and tips"
+						>
+							Details & Tips →
+						</button>
 					</div>
-				</section>
-			</main>
-		</div>
+				</div>
+
+				<!-- Right-side decorative Lottie removed to avoid duplication; each line has its own -->
+				<div></div>
+			</section>
+		</main>
 
 		<script>
-			// 1080x1920 scaling on ?vertical=1
-			function applyVerticalScale() {
-				if (!document.body.classList.contains("vertical")) return;
-				const wrap = document.querySelector(".wrap");
-				const { innerWidth: w, innerHeight: h } = window;
-				wrap.style.transform = `scale(${Math.min(w / 1080, h / 1920)})`;
-			}
-			if (new URLSearchParams(location.search).get("vertical")) {
-				document.body.classList.add("vertical");
-				applyVerticalScale();
-				addEventListener("resize", applyVerticalScale);
-			}
+			// Headline stagger
+			document
+				.querySelectorAll(".line")
+				.forEach((el, i) =>
+					setTimeout(() => el.classList.add("show"), 120 + i * 200)
+				);
 
-			// Stagger headline lines
-			const lines = document.querySelectorAll(".line");
-			lines.forEach((el, i) => {
-				setTimeout(() => el.classList.add("show"), 200 + i * 180);
+			// Reveal each LI (phrase + its lottie together)
+			const items = document.querySelectorAll(".preplist li");
+			items.forEach((li, i) => {
+				setTimeout(() => li.classList.add("show"), 420 + i * 300);
 			});
 
-			// Respect reduced motion: pause lottie if user prefers less motion
-			const prefersReduce = window.matchMedia(
-				"(prefers-reduced-motion: reduce)"
-			).matches;
-			const lottie = document.querySelector("dotlottie-wc");
-			if (prefersReduce && lottie) {
-				try {
-					lottie.pause();
-				} catch (e) {}
-			}
-
-			// No auto-advance; user taps Next button (or presses Enter/Space for a11y)
-			let advanced = false;
-			function goNext() {
-				if (advanced) return;
-				advanced = true;
-				const s3 = document.getElementById("screen3");
-				if (s3) s3.classList.add("fade-out");
-				setTimeout(() => {
-					window.location.href = "screen4.html";
-				}, 520);
-			}
-			window.addEventListener("keydown", (e) => {
-				if (["Enter", " "].includes(e.key)) goNext();
-			});
-		</script>
-
-		<!-- DevFest Next (drop-in) -->
-
-		<style>
-			.df-next__wrap {
-				position: fixed;
-				right: clamp(12px, 2vw, 20px);
-				bottom: clamp(12px, 2.2vw, 20px);
-				z-index: 9999;
-				pointer-events: none;
-			}
-			.df-next__btn {
-				pointer-events: auto;
-				-webkit-tap-highlight-color: transparent;
-				border: 1px solid rgba(0, 0, 0, 0.12);
-				background: #0f172a;
-				color: #fff;
-				font: 700 14px/1.1 Inter;
-				padding: 0.9rem 1.15rem;
-				border-radius: 999px;
-				display: inline-flex;
-				gap: 0.6ch;
-				align-items: center;
-				box-shadow: 0 10px 28px rgba(2, 6, 23, 0.28);
-				transform: translateY(6px);
-				opacity: 0;
-				backdrop-filter: blur(4px);
-				transition: transform 0.25s ease, opacity 0.45s ease;
-			}
-			.df-next__btn svg {
-				width: 1.15em;
-				height: 1.15em;
-			}
-			.df-next__btn:focus-visible {
-				outline: 3px solid #93c5fd;
-				outline-offset: 3px;
-			}
-			.df-next__btn:hover {
-				transform: translateY(0);
-			}
-			.df-next--in .df-next__btn {
-				opacity: 1;
-				transform: translateY(0);
-			}
-			.df-fade-out {
-				animation: dfFade 0.45s ease forwards;
-			}
-			@keyframes dfFade {
-				to {
-					opacity: 0;
-					transform: translateY(-6px) scale(0.995);
-				}
-			}
-			@media (prefers-reduced-motion: reduce) {
-				.df-next__btn,
-				.df-fade-out {
-					transition: none !important;
-					animation: none !important;
-				}
-			}
-			.details-btn {
-				margin-top: 1.4rem;
-				display: inline-flex;
-				align-items: center;
-				gap: 0.6ch;
-				padding: 0.9rem 1.3rem;
-				border-radius: 999px;
-				border: 1px solid rgba(2, 6, 23, 0.12);
-				background: #0f172a;
-				color: #fff;
-				font-weight: 700;
-				font-size: 1rem;
-				letter-spacing: 0.01em;
-				box-shadow: 0 8px 24px rgba(2, 6, 23, 0.28);
-				cursor: pointer;
-				transition: all 0.25s ease;
-			}
-			.details-btn:hover {
-				transform: translateY(-2px);
-				background: #1e293b;
-			}
-			.details-btn:focus-visible {
-				outline: 3px solid #93c5fd;
-				outline-offset: 3px;
-			}
-		</style>
-		<script>
-			(function () {
-				const host = document.getElementById("df-next");
-				if (!host) return;
-				const nextUrl = host.getAttribute("data-next") || "";
-				const autoDelay = parseInt(host.getAttribute("data-autodelay")) || null;
-				const label = host.getAttribute("data-label") || "Tap to see next →";
-				const wrap = document.createElement("div");
-				wrap.className = "df-next__wrap";
-				const btn = document.createElement("button");
-				btn.type = "button";
-				btn.className = "df-next__btn";
-				btn.setAttribute("aria-label", label);
-				btn.innerHTML = `${label}
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>`;
-				wrap.appendChild(btn);
-				host.replaceWith(wrap);
-				requestAnimationFrame(() => wrap.classList.add("df-next--in"));
-				const section =
-					document.querySelector('section[id^="screen"]') || document.body;
-				let advancing = false;
-				function goNext() {
-					if (advancing) return;
-					advancing = true;
-					if (section) section.classList.add("df-fade-out");
-					setTimeout(() => {
-						if (nextUrl) window.location.href = nextUrl;
-					}, 450);
-				}
-				btn.addEventListener("click", goNext);
-				window.addEventListener("keydown", (e) => {
-					if (e.key === "Enter" || e.key === " ") goNext();
+			// Reduced motion
+			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+				document
+					.querySelectorAll(".line")
+					.forEach((el) => el.classList.add("show"));
+				items.forEach((el) => el.classList.add("show"));
+				// pause lotties
+				document.querySelectorAll("dotlottie-wc").forEach((el) => {
+					try {
+						el.pause();
+					} catch (_) {}
 				});
-				let timer = null;
-				if (Number.isFinite(autoDelay) && autoDelay > 0) {
-					timer = setTimeout(goNext, autoDelay);
-					["mousemove", "pointerdown", "keydown", "touchstart"].forEach((ev) =>
-						addEventListener(
-							ev,
-							() => {
-								if (timer) {
-									clearTimeout(timer);
-									timer = null;
-								}
-							},
-							{ once: true }
-						)
-					);
-				}
-			})();
-			// Button click → open more info screen
-			document.getElementById("detailsBtn").addEventListener("click", () => {
-				window.location.href = "screen4-details.html";
-			});
+			}
+
+			// CTA
+			const goDetails = () => (location.href = "screen4-details.html");
+			document
+				.getElementById("detailsBtn")
+				.addEventListener("click", goDetails);
+			addEventListener(
+				"keydown",
+				(e) => (e.key === "Enter" || e.key === " ") && goDetails()
+			);
 		</script>
 	</body>
 </html>

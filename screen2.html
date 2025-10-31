@@ -10,31 +10,34 @@
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Poppins:wght@700;800&display=swap"
 			rel="stylesheet"
 		/>
+
+		<!-- dotlottie web component -->
 		<script
-			src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"
-			defer
+			src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
+			type="module"
 		></script>
 
 		<style>
 			:root {
-				--bg0: #f6faf7;
 				--ink: #0b1220;
 				--muted: #4b5563;
 				--ring: rgba(2, 6, 23, 0.12);
 				--g-blue: #4285f4;
 				--g-yellow: #fbbc04;
 				--g-green: #34a853;
-				--g-cyan: #57c6d6;
 			}
+
 			* {
 				box-sizing: border-box;
 			}
 			html,
 			body {
 				height: 100%;
-			}
-			body {
 				margin: 0;
+				padding: 0;
+			}
+
+			body {
 				font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
 					Helvetica, Arial;
 				color: var(--ink);
@@ -44,191 +47,167 @@
 					#eef7ff 60%,
 					#f7fff6 100%
 				);
-				overflow: hidden;
-			}
-
-			/* 1080×1920 capture via ?vertical=1 */
-			body.vertical {
-				display: grid;
-				place-items: center;
-			}
-			body.vertical .wrap {
-				width: 1080px;
-				height: 1920px;
-				transform-origin: center;
-			}
-			body.vertical .fit {
-				position: fixed;
-				inset: 0;
-				display: grid;
-				place-items: center;
-			}
-
-			/* soft side frame */
-			.frame {
-				position: fixed;
-				inset: 0;
-				pointer-events: none;
-			}
-			.frame::before,
-			.frame::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				bottom: 0;
-				width: min(5vw, 60px);
-				background: var(--bg0);
-				opacity: 0.7;
-			}
-			.frame::before {
-				left: 0;
-			}
-			.frame::after {
-				right: 0;
+				overflow-x: hidden;
+				overflow-y: auto;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 100svh;
 			}
 
 			.wrap {
-				height: 100%;
-				display: grid;
-				place-items: center;
-				padding: 6vmin;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: clamp(16px, 4vw, 40px);
 			}
 
 			.card {
 				width: min(1100px, 92vw);
-				position: relative;
-				overflow: hidden;
-				background: rgba(255, 255, 255, 0.7);
+				background: rgba(255, 255, 255, 0.75);
 				backdrop-filter: blur(8px);
 				border: 1px solid var(--ring);
 				border-radius: 28px;
 				box-shadow: 0 20px 60px rgba(15, 23, 42, 0.16);
-				padding: clamp(24px, 6vmin, 54px);
+				padding: clamp(20px, 5vw, 48px);
 				transform: translateY(10px) scale(0.985);
 				opacity: 0;
 				animation: cardIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
 			}
+
 			@keyframes cardIn {
 				to {
 					transform: translateY(0) scale(1);
 					opacity: 1;
 				}
 			}
-			.card::before {
-				content: "";
-				position: absolute;
-				inset: -30% -10% -10% -10%;
-				z-index: -1;
-				filter: blur(10px);
-				background: radial-gradient(
-						900px 500px at 15% 20%,
-						#ffeec6 0%,
-						transparent 60%
-					),
-					radial-gradient(900px 600px at 80% 15%, #d6f7ff 0%, transparent 60%),
-					radial-gradient(900px 600px at 60% 90%, #e7ffe2 0%, transparent 60%);
-				animation: wash 14s ease-in-out infinite;
+
+			.grid {
+				display: grid;
+				gap: clamp(14px, 2vw, 22px);
+				grid-template-columns: 1fr;
+				grid-template-areas:
+					"lottie"
+					"title"
+					"steps"
+					"video"
+					"button";
+				align-items: center;
+				justify-items: center;
 			}
-			@keyframes wash {
-				50% {
-					transform: translate3d(-2%, 1%, 0);
+
+			@media (min-width: 960px) {
+				.grid {
+					grid-template-columns: 1.05fr 0.95fr;
+					grid-template-areas:
+						"lottie video"
+						"title  video"
+						"steps  video"
+						"button video";
+					align-items: center;
+					justify-items: start;
 				}
 			}
 
-			/* Lottie badge */
+			/* Lottie (new animation, above & slightly left) */
 			.lottie-wrap {
-				position: absolute;
-				left: clamp(16px, 2vw, 24px);
-				top: clamp(16px, 2vw, 24px);
-				width: min(140px, 18vw);
-				opacity: 0.95;
-				pointer-events: none;
+				grid-area: lottie;
+				display: flex;
+				justify-content: flex-start;
+				align-items: flex-start;
+				width: 100%;
+				margin: -10px 0 10px -15px;
 			}
 
-			/* left text */
+			.lottie-wrap dotlottie-wc {
+				width: clamp(140px, 18vw, 200px);
+				height: auto;
+			}
+
+			@media (max-width: 959px) {
+				.lottie-wrap {
+					justify-content: flex-start;
+					margin: 0 0 10px -10px;
+					width: 100%;
+				}
+				.lottie-wrap dotlottie-wc {
+					width: clamp(160px, 55vw, 220px);
+				}
+			}
+
 			h1 {
+				grid-area: title;
 				font-family: Poppins, Inter, ui-sans-serif;
 				font-weight: 800;
 				letter-spacing: -0.02em;
 				line-height: 1.08;
 				font-size: clamp(34px, 5.6vw, 70px);
-				margin: 0 0 0.2rem 0;
-			}
-			.lead {
-				font-size: clamp(15px, 1.9vw, 18px);
-				color: var(--muted);
-				margin: 0.2rem 0 0;
-				max-width: 40ch;
+				margin: 0;
+				text-align: left;
+				width: 100%;
 			}
 
-			/* layout */
-			.grid {
+			/* Steps */
+			.steps {
+				grid-area: steps;
+				margin: clamp(10px, 1.8vw, 18px) 0;
+				padding: 0;
+				list-style: none;
 				display: grid;
-				grid-template-columns: 1fr;
-				gap: clamp(18px, 2vw, 24px);
-			}
-			@media (min-width: 860px) {
-				.grid {
-					grid-template-columns: 1.05fr 0.95fr;
-					align-items: center;
-				}
-				.right {
-					justify-self: end;
-				}
+				gap: clamp(12px, 1.8vw, 16px);
+				font-size: clamp(22px, 2.6vw, 30px);
+				font-weight: 700;
+				color: var(--ink);
+				width: 100%;
+				max-width: 46ch;
 			}
 
-			/* dots (subtle) */
-			.dots {
-				display: flex;
-				gap: clamp(14px, 2vw, 24px);
-				margin: clamp(12px, 1.8vw, 18px) 0 0;
-			}
-			.dot {
-				width: clamp(36px, 5.6vw, 60px);
-				aspect-ratio: 1/1;
-				border-radius: 999px;
-				border: 2px solid rgba(0, 0, 0, 0.6);
-				box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5),
-					0 6px 18px rgba(15, 23, 42, 0.15);
-				transform: scale(0.85);
+			.steps li {
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 				opacity: 0;
-				animation: dotIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
-					breathe 5s ease-in-out infinite 1s;
+				transform: translateY(16px);
+				animation: stepIn 1.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+				padding-left: 14px;
+				border-left: 6px solid transparent;
 			}
-			.dot:nth-child(1) {
-				background: var(--g-green);
-				animation-delay: 0.25s;
+
+			.steps li:nth-child(1) {
+				animation-delay: 0.6s;
+				border-left-color: var(--g-blue);
 			}
-			.dot:nth-child(2) {
-				background: var(--g-yellow);
-				animation-delay: 0.35s;
+			.steps li:nth-child(2) {
+				animation-delay: 2s;
+				border-left-color: var(--g-yellow);
 			}
-			.dot:nth-child(3) {
-				background: #78a7f8;
-				animation-delay: 0.45s;
+			.steps li:nth-child(3) {
+				animation-delay: 3.4s;
+				border-left-color: var(--g-green);
 			}
-			.dot:nth-child(4) {
-				background: #ff8a73;
-				animation-delay: 0.55s;
-			}
-			.dot:nth-child(5) {
-				background: var(--g-cyan);
-				animation-delay: 0.65s;
-			}
-			@keyframes dotIn {
-				to {
-					transform: scale(1);
-					opacity: 1;
+
+			@keyframes stepIn {
+				0% {
+					opacity: 0;
+					transform: translateY(18px);
 				}
-			}
-			@keyframes breathe {
-				50% {
-					transform: scale(1.04);
+				65% {
+					opacity: 0.75;
+					transform: translateY(6px);
+				}
+				100% {
+					opacity: 1;
+					transform: translateY(0);
 				}
 			}
 
-			/* video panel */
 			.video-wrap {
+				grid-area: video;
 				width: min(560px, 76vw);
 				aspect-ratio: 3/4;
 				border-radius: 24px;
@@ -240,74 +219,62 @@
 				transform: translateY(8px) scale(0.985);
 				animation: vidIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.25s forwards;
 				position: relative;
+				justify-self: center;
 			}
+
 			@keyframes vidIn {
 				to {
 					opacity: 1;
 					transform: translateY(0) scale(1);
 				}
 			}
+
 			.video-wrap video {
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
 				display: block;
-				-webkit-transform: translateZ(0);
-			}
-			.video-gloss {
-				position: absolute;
-				inset: 0;
-				pointer-events: none;
-				z-index: 2;
-				background: radial-gradient(
-						120% 80% at -10% -20%,
-						rgba(255, 255, 255, 0.25),
-						transparent 40%
-					),
-					radial-gradient(
-						120% 80% at 120% -20%,
-						rgba(255, 255, 255, 0.18),
-						transparent 45%
-					);
-				mix-blend-mode: screen;
 			}
 
-			/* compact next button */
 			.speak-actions {
-				margin-top: clamp(10px, 1.8vmin, 14px);
+				grid-area: button;
+				display: flex;
+				justify-content: center;
+				margin-top: clamp(12px, 2vmin, 18px);
+				width: 100%;
 			}
+
 			.speak-btn {
 				display: inline-flex;
 				align-items: center;
-				gap: 0.5ch;
-				padding: 0.6rem 0.9rem;
+				justify-content: center;
+				gap: 0.7ch;
+				padding: 1rem 1.35rem;
 				border-radius: 999px;
-				border: 1px solid rgba(2, 6, 23, 0.12);
-				background: #111827;
-				color: #fff;
+				border: 0;
 				font-weight: 800;
-				font-size: 14px;
-				box-shadow: 0 10px 24px rgba(2, 6, 23, 0.24);
-				transform: translateY(4px);
-				opacity: 0;
-				transition: transform 0.2s ease, opacity 0.35s ease;
-				animation: btnIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s forwards;
-			}
-			@keyframes btnIn {
-				to {
-					opacity: 1;
-					transform: translateY(0);
-				}
-			}
-			.speak-btn:hover {
-				transform: translateY(-1px);
-			}
-			.speak-btn:focus-visible {
-				outline: 3px solid #93c5fd;
-				outline-offset: 3px;
+				font-size: clamp(17px, 3.2vw, 19px);
+				color: #0b1220;
+				background: linear-gradient(135deg, var(--g-blue), var(--g-green));
+				box-shadow: 0 16px 36px rgba(26, 115, 232, 0.35);
+				cursor: pointer;
+				transition: transform 0.18s ease, box-shadow 0.18s ease,
+					filter 0.18s ease;
+				width: 100%;
+				max-width: 360px;
 			}
 
-			/* fade for transition */
+			.speak-btn:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 20px 42px rgba(26, 115, 232, 0.45);
+				filter: brightness(1.03);
+			}
+
+			.speak-btn:active {
+				transform: translateY(0);
+				filter: brightness(0.98);
+			}
+
 			.fade-out {
 				animation: fade 0.45s ease forwards;
 			}
@@ -317,128 +284,111 @@
 					transform: translateY(-6px) scale(0.995);
 				}
 			}
+
+			@media (prefers-reduced-motion: reduce) {
+				* {
+					animation-duration: 0s !important;
+					transition-duration: 0s !important;
+				}
+			}
+			/* Extra breathing space for small mobile screens like Galaxy S8+ */
+			@media (max-width: 420px) {
+				.card {
+					margin-top: 24px; /* adjust between 16–32px depending on your test */
+				}
+			}
 		</style>
 	</head>
 
 	<body>
-		<div class="frame" aria-hidden="true"></div>
-		<div class="fit">
-			<main class="wrap" role="main">
-				<section class="card" id="screen2" aria-label="Speakers guidance">
+		<main class="wrap">
+			<section class="card" id="screen2" aria-label="Speakers guidance">
+				<div class="grid">
+					<!-- Lottie (new animation) -->
 					<div class="lottie-wrap">
-						<lottie-player
+						<dotlottie-wc
+							src="https://lottie.host/607a77a8-1ac3-4846-8c97-26f0934c08ce/qazQdaZwSb.lottie"
 							autoplay
 							loop
-							mode="normal"
-							background="transparent"
-							style="width: 100%; height: 100%"
-							src="https://assets2.lottiefiles.com/packages/lf20_j1adxtyb.json"
-						></lottie-player>
+						></dotlottie-wc>
 					</div>
 
-					<div class="grid">
-						<div class="left">
-							<h1>Meet your speakers</h1>
-							<p class="lead">
-								Open the <strong>Speakers</strong> section. Read bios. Add them
-								on LinkedIn.
-							</p>
+					<!-- Title -->
+					<h1>See who’s speaking</h1>
 
-							<div class="dots" aria-hidden="true">
-								<div class="dot"></div>
-								<div class="dot"></div>
-								<div class="dot"></div>
-								<div class="dot"></div>
-								<div class="dot"></div>
-							</div>
+					<!-- Steps -->
+					<ol class="steps" aria-label="How to prep your speakers list">
+						<li>1. Open <strong>Speakers</strong> section.</li>
+						<li>2. Read bios.</li>
+						<li>3. Add them on LinkedIn.</li>
+					</ol>
 
-							<div class="speak-actions">
-								<button
-									class="speak-btn"
-									type="button"
-									aria-label="Next"
-									onclick="goNext()"
-								>
-									Next →
-									<svg
-										viewBox="0 0 24 24"
-										width="16"
-										height="16"
-										fill="none"
-										stroke="currentColor"
-										stroke-width="2"
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										aria-hidden="true"
-									>
-										<path d="M5 12h14" />
-										<path d="M12 5l7 7-7 7" />
-									</svg>
-								</button>
-							</div>
-						</div>
-
-						<div class="right">
-							<div class="video-wrap" id="videoWrap">
-								<video
-									id="speakersVid"
-									src="assets/SpeakersIntro.mp4"
-									poster="assets/SpeakersPic.png"
-									preload="auto"
-									muted
-									playsinline
-									autoplay
-									loop
-									aria-label="Speakers and community highlights"
-								>
-									Sorry, your browser doesn’t support embedded videos.
-								</video>
-								<div class="video-gloss" aria-hidden="true"></div>
-							</div>
-						</div>
+					<!-- Video -->
+					<div class="video-wrap" id="videoWrap">
+						<video
+							id="speakersVid"
+							src="assets/SpeakersIntro.mp4"
+							poster="assets/SpeakersPic.png"
+							preload="auto"
+							muted
+							playsinline
+							autoplay
+							loop
+							aria-label="Speakers and community highlights"
+						></video>
 					</div>
-				</section>
-			</main>
-		</div>
+
+					<!-- Button -->
+					<div class="speak-actions">
+						<button
+							class="speak-btn"
+							type="button"
+							aria-label="Next tip"
+							onclick="goNext()"
+						>
+							Next tip
+							<svg
+								viewBox="0 0 24 24"
+								width="18"
+								height="18"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path d="M5 12h14" />
+								<path d="M12 5l7 7-7 7" />
+							</svg>
+						</button>
+					</div>
+				</div>
+			</section>
+		</main>
 
 		<script>
-			/* 1080×1920 scaling via ?vertical=1 */
-			(function () {
-				const qp = new URLSearchParams(location.search);
-				if (qp.get("vertical")) {
-					document.body.classList.add("vertical");
-					const wrap = document.querySelector(".wrap");
-					const scale = () =>
-						(wrap.style.transform = `scale(${Math.min(
-							innerWidth / 1080,
-							innerHeight / 1920
-						)})`);
-					addEventListener("resize", scale, { passive: true });
-					scale();
-				}
-			})();
+			function goNext() {
+				const s2 = document.getElementById("screen2");
+				s2.classList.add("fade-out");
+				setTimeout(() => (location.href = "screen3.html"), 450);
+			}
 
-			/* robust autoplay */
 			const vid = document.getElementById("speakersVid");
 			if (vid) {
 				vid.muted = true;
 				const tryPlay = () => vid.play().catch(() => {});
 				if (vid.readyState >= 2) tryPlay();
 				else vid.addEventListener("canplay", tryPlay, { once: true });
-				document.addEventListener("visibilitychange", () => {
-					if (!document.hidden) tryPlay();
-				});
 			}
 
-			/* Next → */
-			function goNext() {
-				const s2 = document.getElementById("screen2");
-				s2.classList.add("fade-out");
-				setTimeout(() => (location.href = "screen3.html"), 450);
+			const prefersReduce = window.matchMedia(
+				"(prefers-reduced-motion: reduce)"
+			).matches;
+			const lottie = document.querySelector(".lottie-wrap dotlottie-wc");
+			if (prefersReduce && lottie && lottie.pause) {
+				lottie.pause();
 			}
-			window.addEventListener("keydown", (e) => {
-				if (e.key === "Enter" || e.key === " ") goNext();
-			});
 		</script>
 	</body>
 </html>
