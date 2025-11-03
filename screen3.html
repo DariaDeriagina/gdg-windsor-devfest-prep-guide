@@ -31,13 +31,8 @@
 				box-sizing: border-box;
 			}
 			html,
-			body {
-				height: 100%;
-				margin: 0;
-				padding: 0;
-			}
-
-			body {
+			/* REPLACE your existing body{} with this */
+body {
 				font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto,
 					Helvetica, Arial;
 				color: var(--ink);
@@ -49,10 +44,13 @@
 				);
 				overflow-x: hidden;
 				overflow-y: auto;
-				display: flex;
-				align-items: center;
-				justify-content: center;
+
+				/* new: 2-row layout -> main + footer */
+				display: grid;
+				grid-template-rows: 1fr auto;
 				min-height: 100svh;
+				margin: 0;
+				padding: 0;
 			}
 
 			.wrap {
@@ -297,6 +295,26 @@
 					margin-top: 24px; /* adjust between 16–32px depending on your test */
 				}
 			}
+
+			/* Footer */
+			.site-footer {
+				text-align: center;
+				padding: 18px 0 12px;
+				font-size: 14px;
+				color: var(--muted);
+			}
+
+			.site-footer a {
+				font-weight: 700;
+				text-decoration: none;
+				background: linear-gradient(90deg, var(--g-blue), var(--g-green));
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				transition: opacity 0.25s ease;
+			}
+			.site-footer a:hover {
+				opacity: 0.85;
+			}
 		</style>
 	</head>
 
@@ -366,6 +384,14 @@
 				</div>
 			</section>
 		</main>
+		<footer class="site-footer" role="contentinfo">
+			<p>
+				Designed &amp; developed by
+				<a href="https://dash-dev.net/" target="_blank" rel="noopener"
+					>#dashDev Studio</a
+				>
+			</p>
+		</footer>
 
 		<script>
 			function goNext() {

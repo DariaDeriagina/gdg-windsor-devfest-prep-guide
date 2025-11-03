@@ -33,14 +33,24 @@
 			body {
 				height: 100%;
 			}
+			/* REPLACE your existing body{} with this */
 			body {
 				margin: 0;
 				font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
 					Helvetica, Arial;
 				color: var(--ink);
 				background: var(--bg);
-				overflow: hidden;
+
+				/* Content + footer layout */
+				display: grid;
+				grid-template-rows: 1fr auto;
+				min-height: 100svh;
+
+				/* allow page to scroll if needed */
+				overflow-x: hidden;
+				overflow-y: auto;
 			}
+
 			.wrap {
 				height: 100%;
 				display: grid;
@@ -208,6 +218,26 @@
 					transform: translateY(-6px) scale(0.995);
 				}
 			}
+
+			/* Footer */
+			.site-footer {
+				text-align: center;
+				padding: 18px 0 12px;
+				font-size: 14px;
+				color: var(--muted);
+			}
+
+			.site-footer a {
+				font-weight: 700;
+				text-decoration: none;
+				background: linear-gradient(90deg, #4285f4, #34a853);
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				transition: opacity 0.25s ease;
+			}
+			.site-footer a:hover {
+				opacity: 0.85;
+			}
 		</style>
 	</head>
 	<body>
@@ -236,6 +266,15 @@
 				<button class="cta" onclick="goNext()">What’s next?</button>
 			</section>
 		</main>
+
+		<footer class="site-footer" role="contentinfo">
+			<p>
+				Designed &amp; developed by
+				<a href="https://dash-dev.net/" target="_blank" rel="noopener"
+					>#dashDev Studio</a
+				>
+			</p>
+		</footer>
 
 		<script>
 			/* vertical scaling */

@@ -239,6 +239,24 @@
 				outline-offset: 3px;
 			}
 
+			.site-footer {
+				text-align: center;
+				padding: 16px 0 8px;
+				font-size: 14px;
+				color: var(--muted);
+				opacity: 0.9;
+			}
+
+			.site-footer a {
+				color: var(--g-blue);
+				font-weight: 600;
+				text-decoration: none;
+			}
+
+			.site-footer a:hover {
+				text-decoration: underline;
+			}
+
 			/* ===== Phone polish ===== */
 			@media (max-width: 480px) {
 				.container {
@@ -322,6 +340,14 @@
 					<path d="M12 5l7 7-7 7" />
 				</svg>
 			</button>
+			<footer class="site-footer" role="contentinfo">
+				<p>
+					Designed &amp; developed by
+					<a href="https://dash-dev.net/" target="_blank" rel="noopener">
+						#dashDev Studio
+					</a>
+				</p>
+			</footer>
 
 			<noscript style="color: #cbd5e1; font-size: 14px; text-align: center">
 				JavaScript is required for animations and navigation.
